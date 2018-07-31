@@ -1,0 +1,38 @@
+<include file="Pub:header"  />
+		
+	 <div class="mainpage">	
+       
+				
+  <h3 class="mainpagehader" >借款总表</h3>
+     
+         <div class="userloan">   
+		     
+			  
+	 <ul> 
+      <li class="liborder">发标中借入：</td><td>￥{$mx.borrow.2.money|default="0.00"} / {$mx.borrow.2.num|default=0}标</li>
+   <li class="liborder">偿还中借入：
+    ￥{$mx.borrow.6.money|default="0.00"} / {$mx.borrow.6.num|default=0}标</li>
+    <li class="liborder">还清的借入：
+    ￥{$mx.borrow.7.money|default="0.00"} / {$mx.borrow.7.num|default=0}标
+   </li>
+    <li class="liborder">逾期的借入：
+    ￥{$mx.tj.expiredMoney|default="0.00"} / {$mx.tj.expiredNum|default=0}期
+    </li>
+    <li class="liborder">累计借入总额:￥{$mx.tj.jkze|default="0.00"} </li>
+	<li> </li>
+    </ul>
+				 
+				 
+
+    </div>
+        
+<!------顶部布局开始------>		
+
+
+<!-----底部布局结束----->
+  </div> <!-------mainpage end------->
+ 
+ </div>
+
+</body>
+</html>

@@ -1,0 +1,92 @@
+<include file="Pub:header"  />
+		
+	 <div class="mainpage">	
+        <div class="hot_com"  style="margin-top:10px;" >
+            <h4>
+                <a href="javascript:;" class="a_hot_title">散标投资</a></h4>
+            <ul>
+
+			  <li class="liborder"> <a href="#"><img src="__ROOT__/Style/newmobile/images/sanbiao.jpg" width="100%" height="127" /></a></li> 		 	
+		<volist name="list.list" id='vo'>
+	                        <li class="liborder">
+                              <table width="100%">
+					
+				<tr> <td colspan="3">  <dl>  <dt>
+                                  <a href="__URL__/seeinvest?id={$vo.id}"> {$vo.borrow_name|cnsubstr=###,10} </a>
+                                </dt> </dl> </td>  </tr>	
+							  
+							    <tr>
+								
+		<td   style="padding-left:5px;" width="60px"> <div id="box{$vo.id}" class="box"></div>
+			<script type="text/javascript">
+			 $(function(){
+				 var obj=$("#box{$vo.id}");
+				 data={$vo.progress|intval};
+				 if(data<0)
+					i=0;
+				 else
+				   i=data;				 
+				 var imgLeft = -(i*44+(i*10))+'px';
+				 obj.css("background-position",imgLeft);
+				 obj.html(i+"%");
+			 });
+		</script>
+   </td>
+								    <td width="65%">   <dl>
+                               
+                                <dd>
+                                    总额度：￥{$vo.borrow_money|getMoneyFormt=###}元
+                                </dd>
+                   
+                                <dd >
+                                   年利率：{$vo.borrow_interest_rate}%/<php> echo $vo['repayment_type']==1?'天':'年'</php>
+                                </dd>
+								 <dd >
+                                   期限：{$vo.borrow_duration} <php> echo $vo['repayment_type']==1?'天':'个月'</php>
+                                </dd>
+								 <dd > {$vo.add_time|date="Y-m-d H:i:s",###} </dd>
+                            </dl> </td>
+							
+                   <td> 
+			<if condition="$vo.borrow_status eq 3"> 
+		    <a href="javascript:;"  class="buybutton" style="border:0px;" >已流标</a>
+            <elseif condition="$vo.borrow_status eq 4"/>
+            <a href="javascript:;" class="buybutton" style="border:0px;" >复审中</a>
+            <elseif condition="$vo.borrow_status eq 6"/>
+            <a href="javascript:;" class="buybutton" style="border:0px;" >还款中</a>
+            <elseif condition="$vo.borrow_status gt 6"/>
+            <a href="__URL__/seeinvest?id={$vo.id}" class="buybutton" style="border:0px;">已完成</a>
+            <else/>
+            <a href="__URL__/seeinvest?id={$vo.id}"  class="buybutton" style="border:0px;" >立刻投标</a> 
+		    </if> 
+		</td>
+
+							     </tr>
+							  </table>
+                       
+						</li>					
+	</volist>				
+ 
+                    
+            </ul>
+ <div class="pagebar"> {$list.page}  </div><!-------分页栏目------->	
+        </div>
+        
+
+
+<!------顶部布局开始------>		
+﻿<include file="Pub:footer" />  
+<!-----底部布局结束----->
+
+
+  </div> <!-------mainpage end------->
+ 
+ 
+
+ <!----------底部导航菜单start------>
+   ﻿<include file="Pub:footnav" />  
+<!-----------底部导航end----------->
+
+
+</body>
+</html>

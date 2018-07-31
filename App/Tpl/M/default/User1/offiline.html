@@ -1,0 +1,89 @@
+<include file="Pub:header"  />
+		
+	 <div class="mainpage">	
+       
+				
+  <h3 class="mainpagehader" >线下充值</h3>
+     
+         <div class="usereditepass">   
+		     			  
+   <ul> 
+    <form action="__URL__/doline" method="post"   name="form1" id="form1">
+	<volist  name="bank" id="vo">
+	   <li class="selectbank"><input type="radio" name="bank" id="bank" value="{$i}" <if condition="$i eq 1">checked="checked"</if> > {$vo.bank}  </li>
+	   <li>  开户名：{$vo.payee}</li>
+	   <li>账户号：{$vo.account}</li>
+	   <li> 开户地址：{$vo.address}</li>
+	   
+  </volist>	 
+  <li>充值金额： <input id="money_off" name="money_off" class="inputs" type="text" onblur="testAmount();"  >  </li>
+  <li>账单流水号：<input id="tran_id" name="tran_id" class="inputs" type="text"></li>
+  <li>充值方式：<input id="off_way" name="off_way" class="inputs" type="text" value="如网银转帐，柜台汇款,汇款人等">  </li>
+  
+	 <li style="text-align:center;"> <input type="button" class="buybutton" value="确&nbsp;&nbsp; 定" /> </li>
+	</form> 
+  </ul>
+				 
+				 
+
+  </div>
+        
+<!------顶部布局开始------>		
+
+
+<!-----底部布局结束----->
+  </div> <!-------mainpage end------->
+ 
+ </div>
+
+</body>
+</html>
+<script language="javascript">
+  $(".buybutton").click(function(){
+      //start
+         var bank=$('input:radio:checked').val();
+		var money_off=$("#money_off").val();
+		var tran_id=$("#tran_id").val();
+	    var off_way=$("#off_way").val();
+        
+        if(!money_off){
+            Apprise('<font color=red>请输入充值金额！</font>');
+            return false;
+        }
+        if(!tran_id){
+            Apprise('<font color=red>请输入账单流水号！</font>'); 
+            return false;
+        }
+        if(!off_way){
+            Apprise('<font color=red>请输入充值方式！</font>'); 
+            return false;
+        }
+	
+	   $('#form1').submit();    
+      
+		
+    
+     //end
+  });
+</script>
+
+
+<script type="text/javascript">
+  $(function(){
+     $("#off_way").focus(function(){ $(this).val("");});
+   })
+</script>
+
+<script type="text/javascript">
+  function testAmount(){
+    var num=$("#money_off").val();
+	if(isNaN(num))
+	 $("#money_off").val("请输入正确的数字");
+  
+  }
+ 
+</script>
+
+
+
+

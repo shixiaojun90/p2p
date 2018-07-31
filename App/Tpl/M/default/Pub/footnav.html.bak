@@ -1,0 +1,81 @@
+	<div data-role="widget" data-widget="nav4" class="nav4">
+		<nav>
+			<div id="nav4_ul" class="nav_4">
+				<ul class="boxheader">
+					<li>
+						<a href="javascript:;" class=""><span>我要投资</span></a>                
+						<dl id="invest" style="border: 1px solid #ddd;">
+							<dd><a href="__ROOT__/m/index/"><span>个人直投</span></a></dd>
+							<div style="border-top:1px solid #DDDDDD; width:100%;height:1px;"></div>
+							<dd><a href="__ROOT__/m/debt/"><span>债权转让</span></a></dd>
+						</dl>
+					</li>
+
+					<li>
+						<a href="javascript:;" class=""><span>我要借款</span></a>                
+						<dl id="tinvest">
+							<dd><a href="__ROOT__/m/borrow/index/type/normal.html"><span>信用标</span></a></dd>
+							<div style="border-top:1px solid #DDDDDD; width:100%;height:1px;"></div>
+							<dd><a href="__ROOT__/m/borrow/index/type/vouch.html"><span>担保标</span></a></dd>
+							<div style="border-top:1px solid #DDDDDD; width:100%;height:1px;"></div>
+							<dd><a href="__ROOT__/m/borrow/index/type/net.html"><span>净值标</span></a></dd>
+							<div style="border-top:1px solid #DDDDDD; width:100%;height:1px;"></div>
+							<dd><a href="__ROOT__/m/borrow/index/type/normal.html"><span>抵押标</span></a></dd>
+						</dl>
+					</li>
+					
+					<li>
+						<a href="javascript:;" class=""><span>关于贺邦</span></a>              
+						<dl id="isuser">
+							<dd><a href="__ROOT__/m/user/"><span>我的账户</span></a></dd>
+							<div style="border-top:1px solid #DDDDDD; width:100%;height:1px;"></div>
+							<dd><a href="__ROOT__/m/pub/login"><span>登陆注册</span></a></dd>
+							<div style="border-top:1px solid #DDDDDD; width:100%;height:1px;"></div>
+							<dd><a href="__ROOT__/m/aboutus/content/id/10"><span>公司简介</span></a></dd>
+							<div style="border-top:1px solid #DDDDDD; width:100%;height:1px;"></div>
+							<dd><a href="__ROOT__/m/aboutus/content/id/11"><span>公司证件</span></a></dd>
+							<div style="border-top:1px solid #DDDDDD; width:100%;height:1px;"></div>
+							<dd><a href="__ROOT__/m/aboutus/content/id/16"><span>资费说明</span></a></dd>
+							<div style="border-top:1px solid #DDDDDD; width:100%;height:1px;"></div>
+							<dd><a href="__ROOT__/m/aboutus/content/id/17"><span>政策法规</span></a></dd>
+						</dl>
+					</li>
+				</ul>
+			</div>
+		</nav>
+      <div id="nav4_masklayer" class="masklayer_div on"> </div>
+     
+    </div>
+
+	<script>
+		$(function(){
+			$("#nav4_ul .boxheader > li > a").each(function(){
+				$(this).click(function(){
+					var check = $(this).text();
+					if(check == "我要投资"){
+						$("#invest").toggle();
+						$("#tinvest").hide();
+						$("#isuser").hide();
+					}else if(check == "我要借款"){
+						$("#tinvest").toggle();
+						$("#invest").hide();
+						$("#isuser").hide();
+					}else if(check == "关于贺邦"){
+						$("#tinvest").hide();
+						$("#invest").hide();
+						$("#isuser").toggle();
+					}else{
+						$("#tinvest").hide();
+						$("#invest").hide();
+						$("#isuser").hide();
+					}
+				})
+			})
+		})
+	</script>
+
+	<script>
+		function about(id){
+			window.open("__APP__/m/aboutus/content/id/"+id);
+		}
+	</script>

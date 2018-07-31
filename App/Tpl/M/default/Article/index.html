@@ -1,0 +1,15 @@
+<include file="Pub:header" />  
+
+<link href="__ROOT__/Style/Mobile/css/article.css" rel="stylesheet" type="text/css" />
+<div class="page">
+<div class="arlist">
+  <ul>
+   <volist name="list" id="vo">
+     <li><a href="__URL__/andisplay?id={$vo.id}">{$vo.title|cnsubstr=###,18}</a></li>
+   </volist>	
+   <li> {$pagebar}</li> 
+  </ul>
+</div>
+﻿<include file="Pub:footer" /> 
+</div>
+ 

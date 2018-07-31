@@ -1,0 +1,56 @@
+<include file="Public:_header" />
+<tagLib name="htmlA" />
+<script type="text/javascript">
+	var isSearchHidden = 1;
+</script>
+<div class="so_main">
+<div class="page_tit">还款明细</div> 
+<!--搜索/筛选会员-->
+  <include file="search" />
+<!--搜索/筛选会员-->
+
+  <div class="Toolbar_inbox">
+  	<div class="page right">{$pagebar}</div>
+    <!-- <htmlA:commonBtn type="jsfun" action="" value="还款明细" style="search_action" /> -->
+	<a class="btn_a" href="javascript:history.go(-1);">
+	  <span class="search_action">返回</span>
+	</a>
+  </div>
+  
+  <div class="list">
+  <table id="area_list" width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <th style="width:30px;">
+        <input type="checkbox" id="checkbox_handle" onclick="checkAll(this)" value="0">
+        <label for="checkbox"></label>
+    </th>
+	<th class="line_l">借款标号</th>
+    <th class="line_l">待还本金</th>
+    <th class="line_l">待还利息</th>
+    <th class="line_l">待付总金额</th>
+    <th class="line_l">当前/总（期）</th>
+	 <th class="line_l">应还日期</th>
+  </tr>
+  <volist id="vo" name="list">
+      <tr overstyle='on' id="list_{$vo.id}">
+        <td><input type="checkbox" name="checkbox" id="checkbox2" onclick="checkon(this)" value="{$vo.bid}"></td>
+        <td>{$vo.borrow_id}</td>
+        <td>{$vo.capital}</td>
+        <td>{$vo.interest}</td>
+        <td>{$vo['capital']+$vo['interest']}</td>
+        <td>{$vo.sort_order}/{$vo.total}</td>
+		<th>{$vo.deadline|date="Y-m-d H:i",###}</th>
+      </tr>
+  </volist>
+  </table>
+
+  </div>
+  
+  <div class="Toolbar_inbox">
+  	<div class="page right">{$pagebar}</div>
+     <a class="btn_a" href="javascript:history.go(-1);">
+	  <span class="search_action">返回</span>
+	</a>
+  </div>
+</div>
+<include file="Public:_footer" />

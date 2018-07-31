@@ -1,0 +1,2 @@
+<?php
+return array ( 0 => 'id', 1 => 'uid', 2 => 'type', 3 => 'credit_limit', 4 => 'borrow_vouch_limit', 5 => 'invest_vouch_limit', 6 => 'info', 7 => 'add_time', 8 => 'add_ip', '_autoinc' => true, '_pk' => 'id', ); ?>

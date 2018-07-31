@@ -1,0 +1,32 @@
+<include file="Pub:header"  />
+		
+	 <div class="mainpage">	
+       
+				
+  <h3 class="mainpagehader" >投资总表</h3>
+     
+         <div class="userinvest">   
+		     
+			  <ul > 
+			      <li class="liborder">竞标中投资：￥{$mx.invest.1.investor_capital|default="0.00"}/{$mx.invest.1.num|default="0"}标</li>
+     <li class="liborder">回收中普通投资：￥{$mx.invest.4.investor_capital|default="0.00"}/{$mx.invest.4.num|default="0"}标</li>
+    <li class="liborder">回收中流转投资：￥{$mx.invest.8.investor_capital|default="0.00"}/{$mx.invest.8.num|default="0"}标</li>
+    <li class="liborder">收完的普通投资：￥{:MFormt($mx['invest']['5']['investor_capital'] + $mx['invest']['6']['investor_capital'])}/{$mx['invest']['5']['num']+$mx['invest']['6']['num']}标</li>
+    <li class="liborder">收完的流转投资：￥{$mx.invest.9.investor_capital|default="0.00"}/{$mx.invest.9.num|default="0"}标</li>
+     <li class="liborder">逾期的投资：￥{$mx.tj.expiredInvestMoney|default="0.00"}/{$mx.tj.expiredInvestNum|default=0}期</li>
+     <li class="liborder">累计投资总额：￥{$mx['tj']['borrowOut']|default="0.00"}</li>
+    <li> </li>				 
+				 
+		   </ul>
+    </div>
+        
+<!------顶部布局开始------>		
+
+
+<!-----底部布局结束----->
+  </div> <!-------mainpage end------->
+ 
+ </div>
+
+</body>
+</html>

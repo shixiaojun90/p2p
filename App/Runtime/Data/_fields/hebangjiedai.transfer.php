@@ -1,0 +1,2 @@
+<?php
+return array ( 0 => 'id', 1 => 'orders', 2 => 'uid', 3 => 'username', 4 => 'money', 5 => 'status', 6 => 'loanno', 7 => 'operator', 8 => 'add_time', 9 => 'add_ip', 10 => 'operator_id', 11 => 'remark', '_autoinc' => true, '_pk' => 'id', ); ?>

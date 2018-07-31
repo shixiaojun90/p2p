@@ -1,0 +1,2 @@
+<?php
+return array ( 0 => 'id', 1 => 'is_bind', 2 => 'site', 3 => 'openid', 4 => 'nickname', 5 => 'avatar', 6 => 'url', 7 => 'logintimes', 8 => 'logintime', 9 => 'bind_uid', 10 => 'addtime', '_autoinc' => true, '_pk' => 'id', ); ?>

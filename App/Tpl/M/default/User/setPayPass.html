@@ -1,0 +1,81 @@
+<include file="Pub:header"  />
+		
+	 <div class="mainpage">	
+       
+				
+  <h3 class="mainpagehader" >支付密码</h3>
+     
+         <div class="usereditepass">   
+		     
+			  
+<ul> 
+        <li><label>登录密码：</label><input type="password" name='password' id="password" class="inputs" /><font color=red>*</font></li>
+    <li><label>支付密码：</label><input type="password" name="paypass" id="paypass" class="inputs" /><font color=red>*</font></li>
+    <li><label>确认密码：</label><input type="password" name="paypass2" id="paypass2" class="inputs"  /><font color=red>*</font></li>
+    
+	 <li style="text-align:center;"> <input type="button" class="buybutton" value="确&nbsp;&nbsp; 定" /> </li>
+	 </ul>
+				 
+				 
+
+    </div>
+        
+<!------顶部布局开始------>		
+
+
+<!-----底部布局结束----->
+  </div> <!-------mainpage end------->
+ 
+ </div>
+
+</body>
+</html>
+<script language="javascript">
+$(function(){
+    $(".buybutton").click(function(){
+        var password = $.trim($("#password").val());
+        var paypass = $.trim($("#paypass").val());
+        var paypass2 = $.trim($("#paypass2").val());
+        if(!password){
+            Apprise('<font color=red>请输入登陆密码！</font>');
+            return false;
+        }
+        if(!paypass){
+            Apprise('<font color=red>请输入新的支付密码！</font>'); 
+            return false;
+        }
+        if(!paypass2){
+            Apprise('<font color=red>请输入确认支付密码！</font>'); 
+            return false;
+        }
+        if(paypass2 != paypass){
+            Apprise('<font color=red>两次支付密码不相同！</font>'); 
+            return false;
+        }
+        if(paypass.length<6){
+            Apprise('<font color=red>支付密码必须大于等于6位字符</font>'); 
+            return false;
+        }
+        $.ajax({
+           type: "POST",
+           url: "__URL__/setPayPass",
+           data: 'password='+password+'&paypass='+paypass+'&paypass2='+paypass2,
+           success: function(msg){
+               if(msg=='TRUE'){
+                  Apprise("恭喜支付密码设置完成");
+                  $("#apprise-btn-confirm").click(function(){
+                     window.location.href="{:U('M/user/index')}";
+                  })
+               }else{
+                  Apprise('<font color=red>'+msg+'</font>');
+               }
+           },
+           error:function(err){
+               Apprise("<font color=red>提交发生错误！请重试</font>");
+           }
+       });
+    })
+})
+</script>
+
+

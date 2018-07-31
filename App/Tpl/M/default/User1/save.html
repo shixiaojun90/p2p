@@ -1,0 +1,39 @@
+<include file="Pub:header"  />
+		
+	 <div class="mainpage">	
+       
+				
+  <h3 class="mainpagehader" >安全中心</h3>
+     
+         <div class="userloan">   
+		     
+			  
+<ul> 
+        <li>实名认证：{$memberdetail.real_name|default="还未验证"}</li>
+    <li>登陆密码：已设置[<a href="{:U("M/user/editpass")}">修改</a>]</li>
+    <li>支付密码：  <empty name="paypass"><a href="{:U('M/user/setpaypass')}">尚未设置</a>
+            <else/>已设置 [<a href="{:U('M/user/editpaypass')}">修改</a>]</empty></li>
+    <li>安全问题： <if condition="$mstatus.safequestion_status eq '1'">已设置
+                  <else/>
+                  还未设置</if></li>
+    <li>手机号码：</td><td>
+        {$memberinfo.user_phone|hidecard=###,2,"还未验证"}
+   </li>
+    <li>电子邮箱:
+        {$memberinfo.user_email|default="还未验证"}</li>
+    </ul>
+				 
+				 
+
+    </div>
+        
+<!------顶部布局开始------>		
+
+
+<!-----底部布局结束----->
+  </div> <!-------mainpage end------->
+ 
+ </div>
+
+</body>
+</html>

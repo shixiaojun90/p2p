@@ -1,0 +1,215 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="format-detection" content="telephone=yes" />
+<meta content="贺邦借贷" name="keywords" />
+<meta name="format-detection" content="email=no" />
+<title>贺邦借贷</title>
+<link rel="stylesheet" type="text/css" href="__ROOT__/Style/newmobile/css/css.css" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/Style/newmobile/css/select.css" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/Style/newmobile/css/menu.css" />
+<link rel="stylesheet" type="text/css" href="__ROOT__/Style/newmobile/css/styleapp.css" />
+<link rel="stylesheet" href="/style/apprise/apprise-v2.css" type="text/css">
+
+<link rel="apple-touch-icon" href="app/tzrllogo.png" />
+<script type="text/javascript" src="__ROOT__/Style/newmobile/js/jquery-2.1.1.js"></script>
+<script type="text/javascript" src="__ROOT__/Style/newmobile/js/borrow.js"></script>
+
+<script type="text/javascript" src="__ROOT__/Style/newmobile/js/jquery.js"></script>
+<script type="text/javascript" src="/style/apprise/apprise-v2.js"></script>
+
+<script type="text/javascript" src="__ROOT__/Style/newmobile/js/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="__ROOT__/Style/newmobile/js/jquery.event.drag-1.5.min.js"></script>
+<script type="text/javascript" src="__ROOT__/Style/newmobile/js/jquery.touchSlider.js"></script>
+<script type="text/javascript">
+			$(document).ready(function(){
+				$(".main_visual").hover(function(){
+					$("#btn_prev,#btn_next").fadeIn()
+				},function(){
+					$("#btn_prev,#btn_next").fadeOut()
+				});
+				
+				$dragBln = false;
+				
+				$(".main_image").touchSlider({
+					flexible : true,
+					speed : 200,
+					btn_prev : $("#btn_prev"),
+					btn_next : $("#btn_next"),
+					paging : $(".flicking_con a"),
+					counter : function (e){
+						$(".flicking_con a").removeClass("on").eq(e.current-1).addClass("on");
+					}
+				});
+				
+				$(".main_image").bind("mousedown", function() {
+					$dragBln = false;
+				});
+				
+				$(".main_image").bind("dragstart", function() {
+					$dragBln = true;
+				});
+				
+				$(".main_image a").click(function(){
+					if($dragBln) {
+						return false;
+					}
+				});
+				
+				timer = setInterval(function(){
+					$("#btn_next").click();
+				}, 5000);
+				
+				$(".main_visual").hover(function(){
+					clearInterval(timer);
+				},function(){
+					timer = setInterval(function(){
+						$("#btn_next").click();
+					},5000);
+				});
+				
+				$(".main_image").bind("touchstart",function(){
+					clearInterval(timer);
+				}).bind("touchend", function(){
+					timer = setInterval(function(){
+						$("#btn_next").click();
+					}, 5000);
+				});
+				
+			});
+		</script>
+</head>
+<body>
+    <div class="tzrl_box m_index">
+		<div class="header_m_index">
+			<div class="mtzrl_header2">
+			   
+				  <ul>	<li  class="gobackwidth "><a href="javascript:window.history.go(-1);" style="border:0px"> <img src='__ROOT__/Style/newmobile/images/back.png'> </a></li>
+			   <li  class="webmainname" style="padding-top:5px;" > <a href='#' class="webname" style="color:#FFFFFF">贺邦借贷</a></li> 
+			   
+			   <li><a href='__APP__/m/'><img src='__ROOT__/Style/newmobile/images/home.png'></a><span > </span> <a href='__APP__/m/user/'><img src="__ROOT__/Style/newmobile/images/user.png" style='border:0px'>  </a> </li> 
+			   </ul>
+
+			   <div style="clear:both"> </div>
+				
+			</div>
+
+		<div class="kePublic">
+			<!--效果html开始-->
+			<div class="main_visual">
+				<div class="flicking_con">
+					<a href="#">1</a>
+					<a href="#">2</a>
+					<a href="#">3</a>
+					<a href="#">4</a>
+					<a href="#">5</a>
+					<a href="#">6</a>
+
+				</div>
+				<div class="main_image">
+					<ul>
+						<li><span class="img_5"><img src="__ROOT__/Style/newmobile/images/zhounianqing.jpg" /></span></li>
+						<li><span class="img_3"><img src="__ROOT__/Style/newmobile/images/chunji.jpg" /></span></li>
+						<li><span class="img_3"><img src="__ROOT__/Style/newmobile/images/img_main_1.jpg" /></span></li>
+						<li><span class="img_4"><img src="__ROOT__/Style/newmobile/images/eryuer.jpg" /></span></li>
+						<li><span class="img_1"><img src="__ROOT__/Style/newmobile/images/img_main_3.jpg" /></span></li>
+						<li><span class="img_2"><img src="__ROOT__/Style/newmobile/images/img_main_4.jpg" /></span></li>
+					</ul>
+				</div>
+			</div>
+			<!--效果html结束-->
+			<div class="clear"></div>
+		</div>
+	</div>
+
+
+		
+	 <div class="mainpage">	
+        <div class="hot_com">
+            <ul>			  
+		<volist name="list.list" id='vo'>
+	                        <li class="liborder">
+                              <table width="100%">
+					
+				<tr> <td colspan="3">  <dl>  <dt>
+                                  <a href="__URL__/seeinvest?id={$vo.id}"> {$vo.borrow_name|cnsubstr=###,10}  {:getIco($vo)}</a>
+                                </dt></dl> </td>  </tr>	
+							  
+							    <tr>
+								
+		<td   style="padding-left:5px;" width="60px"> <div id="box{$vo.id}" class="box"></div>
+			<script type="text/javascript">
+			 $(function(){
+				 var obj=$("#box{$vo.id}");
+				 data={$vo.progress|intval};
+				 if(data<0)
+					i=0;
+				 else
+				   i=data;				 
+				 var imgLeft = -(i*44+(i*10))+'px';
+				 obj.css("background-position",imgLeft);
+				 obj.html(i+"%");
+			 });
+		</script>
+   </td>
+								    <td width="65%">   <dl>
+                               
+                                <dd>
+                                    总额度：￥{$vo.borrow_money|getMoneyFormt=###}元
+                                </dd>
+                   
+                                <dd >
+                                   年利率：{$vo.borrow_interest_rate}%/<php> echo $vo['repayment_type']==1?'天':'年'</php>
+                                </dd>
+								 <dd >
+                                   期限：{$vo.borrow_duration} <php> echo $vo['repayment_type']==1?'天':'个月'</php>
+                                </dd>
+								 <dd > {$vo.add_time|date="Y-m-d H:i:s",###} </dd>
+                            </dl> </td>
+							
+                   <td> 
+			<if condition="$vo.borrow_status eq 3"> 
+		    <a href="javascript:;"  class="buybutton" style="border:0px;" >已流标</a>
+            <elseif condition="$vo.borrow_status eq 4"/>
+            <a href="javascript:;" class="buybutton" style="border:0px;" >复审中</a>
+            <elseif condition="$vo.borrow_status eq 6"/>
+            <a href="javascript:;" class="buybutton" style="border:0px;" >还款中</a>
+            <elseif condition="$vo.borrow_status gt 6"/>
+            <a href="__URL__/seeinvest?id={$vo.id}" class="buybutton" style="border:0px;">已完成</a>
+            <else/>
+            <a href="__URL__/seeinvest?id={$vo.id}"  class="buybutton" style="border:0px;" >立刻投标</a> 
+		    </if> 
+		</td>
+
+							     </tr>
+							  </table>
+                       
+						</li>					
+	</volist>				
+ 
+                    
+            </ul>
+        </div>
+        
+
+
+<!------顶部布局开始------>		
+﻿<include file="Pub:footer" />  
+<!-----底部布局结束----->
+
+
+  </div> <!-------mainpage end------->
+ 
+ 
+
+ <!----------底部导航菜单start------>
+   ﻿<include file="Pub:footnav" />  
+<!-----------底部导航end----------->
+
+
+</body>
+</html>

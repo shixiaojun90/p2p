@@ -1,0 +1,119 @@
+<include file="Pub:header"  />
+		
+	 <div class="mainpage">	
+       
+				
+  <h3 class="mainpageleft" >购买</h3>
+    <form action="__URL__/investmoney" name="form1" method="post" > 
+	   <input type="hidden" name="borrow_uid" id="borrow_uid" value="{$borrow_info.borrow_uid}">
+	   <input type="hidden" name="uid" id="uid" value="{$uid}" >
+         <div class="usereditepass">   
+		     
+			  
+<ul> 
+        <li><label>可用余额：</label>{$user_info.money|MFormt=###}元<input type="hidden" name="kymoney" value="{$user_info.money}" id="kymoney"></li>
+        <li><label>还需金额：</label>{:MFormt($borrow_info['borrow_money']-$borrow_info['has_borrow'])}元/{$borrow_info.borrow_money|MFormt=###}元</li>
+        <li><label>最小投资：</label> <if condition="$borrow_info.borrow_min eq 0">没有限制
+                  <else/>
+                  {$borrow_info.borrow_min|MFormt=###}元</if>
+	    <input type="hidden" id="borrow_min" value="{$borrow_info.borrow_min}"  >			  
+				  
+				  </li>
+				  
+		 <li><label>最大投资：</label> <if condition="$borrow_info.borrow_max eq 0">没有限制
+                  <else/>
+                  {$borrow_info.borrow_max|MFormt=###}元</if>
+		 <input type="hidden" id="borrow_max" value="{$borrow_info.borrow_max}">		  
+		  </li>		
+	
+		 
+<li><label>投资金额：</label><input type="text" name="invest_money" id="invest_money" autocomplete="off" value="" class="inputs"><font color=red>*</font> 元</li>
+		   
+		 
+		    
+	     <li style="text-align:center;"> <a href="#"  class="buybutton"> 提&nbsp;&nbsp;交 </a> </li>
+		  <input type="hidden" name="bid" id="bid" value="{$bid}">
+	 </ul>
+				
+     </div>
+ </form>       
+<!------顶部布局开始------>		
+
+
+<!-----底部布局结束----->
+  </div> <!-------mainpage end------->
+ 
+ </div>
+
+</body>
+</html>
+
+<script language="javascript">
+$(function() {
+    $(".buybutton").click(function() {
+        
+		var borrow_uid=$("#borrow_uid").val();
+		var uid=$("#uid").val();
+		if(borrow_uid==uid){
+		
+		return Apprise("不能投自己的标 ");
+		 }
+
+
+	    var kymoney=$("#kymoney").val();
+        var e = $("#invest_pass").val(),
+            t = $("#invest_money").val(),
+            n = $("#paypass").val(),
+			bid=$("#bid").val();
+	    var borrow_min=$("#borrow_min").val();	
+        var borrow_max=$("#borrow_max").val();
+		
+            r = "invest_money=" + t + "&paypass=" + n+"&bid="+bid;
+        if ($("#invest_pass").lenght > 0) {
+            r = r + "&invest_pass=" + e;
+            if ($.trim($("#invest_pass").val()) == "") return Apprise("<font color=red>请输入投资密码！</font>");
+          }
+        if ($.trim($("#invest_money").val()) == "") return Apprise("<font color=red>请输入投资金额!</font>");
+        
+         if(borrow_min!=0){
+		     borrow_ys=t%borrow_min;
+			  if(borrow_ys!=0){
+			      return Apprise("<font color='red'>投资金额必须是最小投资金额的整数倍</font>");
+			   }
+		  }
+		 
+        if(borrow_max!=0){
+			borrow_max=parseFloat(borrow_max);
+			 if(t>borrow_max){
+			     return Apprise("<font color='red'>投资金额不能大于最高投资金额</font>");
+			  }
+
+		  }		 
+	 t=praseFloat(t);
+	 kymoney=parseFloat(kymoney);
+	 if(t>kymoney){
+	     return  Apprise("投资金额超出了可用金额");
+		 
+	   }	  	
+	   		
+			
+     if(confirm("确定要投资"+t)){ 
+		
+	/******提交***/	
+        $('form').submit();
+		
+		/******提交***/		
+	 }else{
+	   location.href="__URL__/seeinvest?id={$bid}";
+	 
+	  }	
+		
+		
+		
+    })
+})
+</script>
+
+
+
+

@@ -1,0 +1,118 @@
+<tagLib name="htmlA" />
+<style type="text/css">
+.tdHeard, .tdContent { border: solid 1px #ccc; }
+#pager { margin: 10px 4px 3px 0px; }
+.notes_frame { width: 715px; overflow: hidden; margin: 0 auto; height: 30px; margin-top: 10px; }
+.notes_frame div { padding-top: 13px; }
+.operaframe { width: 735px; overflow: hidden; line-height: 27px; padding-left: 25px; margin-top: 20px; }
+.operaframe ul { padding: 0px; margin: 0px; text-align: left; overflow: hidden; line-height: 25px; }
+.operaframe ul li { float: left; line-height: 25px; }
+</style>
+<!--选择操作-->
+<div class="operaframe">
+	<ul id="formTb">
+		<li style="width: 70px;"><strong>投资类别：</strong> </li>
+		<li style="width: 180px;">
+			<htmlA:select id="borrow_type" value="key|search.borrow_type" datakey='borrow_type' tip="" class="Wdate timeInput_Day"/>
+		</li>
+		<li style="width: 70px;"><strong>起止日期：</strong> </li>
+		<li style="width: 240px;">
+			<input type="text" id="start_time" value="<php>if($search['start_time']){echo date('Y-m-d',$search['start_time']);}</php>" readonly="readonly" class="Wdate timeInput_Day" onfocus="WdatePicker({maxDate:'#F{$dp.$D(\\\'end_time\\\')||\\\'2020-10-01\\\'}'})"/>
+			至
+			<input type="text" value="<php>if($search['end_time']){echo date('Y-m-d',$search['end_time']);}</php>" id="end_time" readonly="readonly" class="Wdate timeInput_Day" onfocus="WdatePicker({minDate:'#F{$dp.$D(\\\'start_time\\\')||\\\'2020-10-01\\\'}'})"/>
+		</li>
+		<li style="width: 100px;">
+			<img alt="" src="__ROOT__/Style/M/images/chakan.jpg" id="btn_search" onclick="sdetail()" style="cursor: pointer;" />
+		</li>
+		<li><a href="__URL__/export?{$query}" style="vertical-align: bottom;line-height: 20px;">下载</a> </li>
+	</ul>
+</div>
+<div style="margin: 10px 0px; overflow: hidden; text-align: left; clear: both; float: left;padding-left: 8px;">
+	<table id="content" style="width: 785px; border-collapse: collapse;" cellspacing="0">
+		<tbody>
+	<tr>
+		<th style="width: 63px;" class="tdHeard" scope="col">
+			借款标号
+		</th>
+		<th style="width: 103px;" class="tdHeard" scope="col">
+			借入人
+		</th>
+		<th style="width: 93px;" class="tdHeard" scope="col">
+			投资金额
+		</th>
+		<th style="width: 63px;" class="tdHeard" scope="col">
+			已还本息
+		</th>
+		<th style="width: 73px;" class="tdHeard" scope="col">
+			年化利率
+		</th>
+		<th style="width: 163px;" class="tdHeard" scope="col">
+			已还/总期数(还款期)
+		</th>
+		<th class="tdHeard" style="width: 50px;" scope="col">
+			备注
+		</th>
+	</tr>
+		<volist name="list" id="vo">
+		<tr id="noinfotip" style="">
+			<td class="tdContent"><a href="{$vo.borrow_id|getInvestUrl=###}" title="{$vo.borrow_name}" target="_blank">{$vo.borrow_id}</a></td>
+			<td class="tdContent">{$vo.borrow_user}</td>
+			<td class="tdContent">{$vo.investor_capital}</td>
+			<td class="tdContent">{$vo['receive_capital'] + $vo['receive_interest']}</td>
+			<td class="tdContent">{$vo.borrow_interest_rate}%</td>
+			<td class="tdContent">{$vo.back|default="0"}/{$vo.total}({$vo.repayment_time|date="Y-m-d",###})(<a href="__URL__/tendoutdetail?id={$vo.id}" target="_blank">详情</a>)</td>
+			<td class="tdContent">
+            <if condition="$vo.period gt 0 and $vo.detb_status eq 1 and $vo.debt_uid eq $uid">
+            
+            购买 {$vo.period}期债权
+            <elseif condition="$vo.period gt 0 and $vo.detb_status eq 1"/>
+            转让 {$vo.period}期债权
+            
+            <else />
+            <a href="__APP__/member/agreement/downfile?id={$vo.id}" target="_blank">合同</a>
+            </if>
+            </td>
+		</tr>
+		</volist>
+	</tbody></table>
+<div data="fragment-3" id="pager" style="float: right; text-align: right; width: 500px; padding-right: 0px;" class="yahoo2 ajaxpagebar">{$pagebar}</div>
+</div>
+<div style="clear: both;">
+</div>
+
+<script type="text/javascript">
+function sdetail(){
+	x = makevar(['borrow_type','start_time','end_time']);
+	$.ajax({
+		url: "__URL__/tendbacking",
+		data: x,
+		timeout: 5000,
+		cache: false,
+		type: "get",
+		dataType: "json",
+		success: function (d, s, r) {
+			if(d) $("#fragment-3").html(d.html);//更新客户端竞拍信息 作个判断，避免报错
+		}
+	});
+}
+
+$('.ajaxpagebar a').click(function(){
+	try{	
+		var geturl = $(this).attr('href');
+		var id = $(this).parent().attr('data');
+		var x={};
+        $.ajax({
+            url: geturl,
+            data: x,
+            timeout: 5000,
+            cache: false,
+            type: "get",
+            dataType: "json",
+            success: function (d, s, r) {
+              	if(d) $("#"+id).html(d.html);//更新客户端 作个判断，避免报错
+            }
+        });
+	}catch(e){};
+	return false;
+})
+</script>

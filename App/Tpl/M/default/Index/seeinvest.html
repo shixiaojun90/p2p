@@ -1,0 +1,295 @@
+<include file="Pub:header" />
+		
+      
+	 <div class="mainpage job_content_style"  style="margin-top:10px;">	
+
+
+
+ <div class="job_box" >
+               <h1 class="d_posName">{$vo.borrow_name}  </h1>
+              
+                <div class="d_posInfo_box">
+                  
+                    <dl class="liborder liheight" >
+                        <dt>借款金额：</dt>
+                        <dd>
+                           <strong>￥{$vo.borrow_money|getMoneyFormt=###}</strong>元
+                        </dd>
+                    </dl>
+					
+                    <dl  class="liborder liheight" >
+                        <dt>年化收益率：</dt>
+                        <dd>
+                            <strong>{$vo.borrow_interest_rate}</strong>&nbsp;%
+                        </dd>
+                    </dl>
+					
+                    <dl  class="liborder liheight" >
+                        <dt>借款期限：</dt>
+                        <dd>
+						   {$vo.borrow_duration}
+                           <if condition="$vo.repayment_type eq 1">
+						      天
+                         <else/>
+                             个月</if>
+                        </dd>
+                    </dl>
+                    <dl  class="liborder liheight" >
+                        <dt>还款方式：</dt>
+                        <dd>
+                           {$Bconfig['REPAYMENT_TYPE'][$vo['repayment_type']]}
+                        </dd>
+                    </dl>
+                    <dl  class="liborder liheight" >
+                        <dt>借款用途：</dt>
+                        <dd>
+                          {$gloconf['BORROW_USE'][$vo['borrow_use']]}
+                        </dd>
+                    </dl>
+                    <dl  class="liborder liheight" >
+                        <dt>投标奖励：</dt>
+                        <dd>
+                           {$vo.reward_num}%
+                        </dd>
+                    </dl>
+                    <dl  class="liborder  liheight" >
+                        <dt>发布时间：</dt>
+                        <dd>
+                            {$vo.add_time|date="Y-m-d H:i",###}
+                        </dd>
+                    </dl>
+                </div>
+</div>
+        <div class="c_menu">
+            <ul>
+                <li class="active"><a href="javascript:;">项目介绍</a> </li>
+                <li><a href="javascript:;">借款者信息</a> </li>
+                <li><a href="javascript:;">投标记录</a> </li>
+            </ul>
+        </div>
+		
+		
+        <div class="job_content">
+            <div class="job_box">
+                <div class="d_description">
+                    <h3 class="d_title">
+                        项目描述</h3>
+                    <div class="d_word">
+                        <p>
+                             {$vo.borrow_info|default="投资人没有添加借款说明"}
+                        </p>
+                    </div>
+
+					<div class="d_word">
+                   <style type="text/css">.imglist{ text-align:center; margin:8px;}.imglist img{width:100%; height:300px;border:4px solid #f0f0f0;}   </style>       
+					    <ul class="imglist">
+                            <php>$i=0;foreach(unserialize($vo['updata']) as $v){ $i++;</php>
+                            <li class="liborder"> <a href="__ROOT__/<php>echo $v['img'];</php>" title="<php>echo $v['info'];</php>" rel="img_group"> <img  title="<php>echo $v['info'];</php>" src="__ROOT__/<php>echo get_thumb_pic($v['img']);</php>"> </a> <span>
+                              <php>echo $v['info'];</php>
+                              </span> </li>
+                            <php>}</php>
+                          </ul>
+
+					</div>
+                   
+					
+                </div>
+            </div>
+			
+	  <if condition="$vo.need eq 0">	
+	  
+        <elseif condition=" $time gt $endtime" />
+
+	    <else />
+            <div class="overlay">&nbsp;</div>
+            <div class="apply_favorites">
+                <button class="btn_apply"> 投标</button>
+               
+               
+            </div>
+	   </if>		
+			
+        </div>
+		
+		
+        <div class="job_content hide">
+		 <if condition="$UID gt '0'">
+            <div class="job_box">
+                <h1 class="d_posName">
+                    {$minfo.user_name}&nbsp;{$minfo.credits|getLeveIco=###,2}   
+                </h1>
+                <div class="d_posInfo_box" style="display:none">
+                   <dl class="liborder liheight" >
+                        <dt>月收入(元)：</dt>
+                        <dd>
+                            {$minfo.fin_monthin|getMoneyFormt=###}
+                        </dd>
+                    </dl>
+
+
+                    <dl  class="liborder liheight" >
+                        <dt>邮箱：</dt>
+                        <dd>
+                           {$minfo.user_email|default="未填写"}
+                        </dd>
+                    </dl>
+                    <dl class="liborder liheight" >
+                        <dt>所属客服：</dt>
+                        <dd>
+                             {$minfo.customer_name|default="未指定"}
+                        </dd>
+                    </dl>
+					
+					<dl  class="liborder liheight" >
+                        <dt>是否购车：</dt>
+                        <dd>
+                             {$minfo.fin_car|default="未填写"}
+                        </dd>
+                    </dl>
+					
+					<dl  class="liborder liheight">
+                        <dt>是否购车：</dt>
+                        <dd>
+                             {$minfo.fin_car|default="未填写"}
+                        </dd>
+                    </dl>
+					
+                </div>
+                <div class="d_description">
+                    <h3 class="d_title">
+                         账号信息</h3>
+                    <div class="d_word">
+                          <ul>
+						    <li class="liheight lifloat"> 资产总额 ：{$minfo.zcze|getMoneyFormt=###}</li> 
+							<li class="liheight lifloat"> 待还总额：{$capitalinfo.tj.dhze|getMoneyFormt=###}  </li> 
+							<li class="liheight lifloat"> 已还总额：{$capitalinfo.tj.yhze|getMoneyFormt=###} </li>
+							<li class="liheight lifloat"> 借出本金：{$capitalinfo.tj.jcze|getMoneyFormt=###} </li>
+							<li class="liheight lifloat"> 待收总额：{$capitalinfo.tj.dsze|getMoneyFormt=###} </li>
+							<li class="liheight lifloat"> 回款总额：{$capitalinfo.tj.ysze|getMoneyFormt=###} </li>
+							<li class="liheight lifloat"> 负债情况：
+                                    <if condition="$capitalinfo['tj']['fz'] lt 0">({$capitalinfo.tj.fz|getMoneyFormt=###})
+                                         <else/>
+                                         ({$capitalinfo.tj.fz|getMoneyFormt=###})
+									</if>
+							</li>
+							<li class="liheight lifloat"> 信用额度：{$mainfo.credit_limit|getMoneyFormt=###} </li>
+						 </ul>
+						<div style="clear:both"> </div>
+                    </div>
+                    <h3 class="d_title">
+                       还款信用</h3>
+                       	
+						<div class="d_word" >
+                                <ul> 
+							         <li class="liheight lifloat"> 成功借款次数：{$capitalinfo.tj.jkcgcs|default=0}次 </li>
+									 <li class="liheight lifloat"> 正常还款次数：{$capitalinfo.repayment.1.num|default=0}次 </li>
+									 <li class="liheight lifloat"> 迟还次数：{$capitalinfo.repayment.3.num|default=0}次 </li>
+									 <li class="liheight lifloat">提前还款次数：{$capitalinfo.repayment.2.num|default=0}次  </li>
+									 <li class="liheight lifloat"> 网站代还次数：{$capitalinfo.repayment.4.num|default=0}次 </li>
+									 <li class="liheight lifloat">逾期还款笔数：{$capitalinfo.repayment.5.num|default=0}次</li>
+									 
+				               </ul>
+							   <div style="clear:both"> </div>
+					    </div>
+						
+                </div>
+            </div>
+          <else/>
+            <ul><li> </li>&nbsp;&nbsp;登录后才可以查看 </ul>
+         
+		  </if>
+
+        </div>
+		
+		
+        <div class="job_content hide">
+            <div class="job_box">
+                <div class="p_list">
+				
+	<!------------投资记录start----------->
+                      <!--realrecod start-->
+					    <div id="recordcontent"> </div>
+	           <div  style="clear:both;height:20px;"> </div>
+           <div class="recordemore"><a href="#">更&nbsp;&nbsp;多</a> <span id="pnum" style="display:none;"> </span></div>
+	<!-----------投资记录end----------->	
+                </div>
+            </div>
+        </div>
+         
+    </div>    
+	
+   <include file="Pub:footer" />
+
+    <script type="text/javascript">
+    $(function(){
+			  
+	//实现选项卡..................	      
+    $(".c_menu ul li").click(function(){
+            $(".active").removeClass("active"); 
+            $(this).addClass("active"); 
+            
+            $(".job_content").hide();
+            $(".job_content").eq($(".c_menu ul li").index($(this))).show();
+            
+      
+        });
+       
+     });
+    </script>  
+ 
+ <script type="text/javascript">
+   $(function(){
+     
+	 investrecord(1);
+         
+   })
+</script> 
+<script type="text/javascript" >
+ function investrecord($p){
+         var id={$vo.id};
+         $.getJSON('__URL__/investrecord',{p:$p,id:id},function(json){
+            if(json.status==1)
+			 {
+			    $("#recordcontent").append(json.data);
+				$("#pnum").html(json.info);
+			 }else{
+			    $("#recordcontent").html(json.data); 
+			   }
+			     
+		});
+ 
+ }
+</script>
+
+<script type="text/javascript">
+  $(function(){
+     $(".recordemore a").click(function(){
+	    var pnum=$(".recordemore span").html();
+		 if(pnum=="" || pnum==null)
+		  {
+		    $(".recordemore a").html("没有更多了");
+		  }else{
+		     pnum++;
+		     investrecord(pnum);
+		  
+		  }
+	 
+	 });
+  
+  })
+</script> 
+<script type="text/javascript">
+  $(function(){
+      $(".btn_apply").click(function(){
+	     location.href='__URL__/buyinvest?bid={$vo.id}';
+	  
+	  });
+  
+  
+  })
+   
+</script>
+	
+</body>
+</html>
+

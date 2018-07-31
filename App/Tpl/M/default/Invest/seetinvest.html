@@ -1,0 +1,230 @@
+<include file="Pub:header" />
+  
+		
+ <div class="mainpage job_content_style"  style="margin-top:10px;" >	
+ 
+    <div class="job_box">
+			    <h1 class="d_posName">
+                   {$vo.borrow_name|cnsubstr=###,20}
+                </h1>
+                <div class="p_list">
+                    <dl>
+					
+					          
+                              
+							    <dd>
+                                    <a href="#"><span >发布时间: </span> {$vo.add_time|mydate="Y-m-d",###} </a>
+                                </dd>
+							  
+							   <dd> &nbsp;&nbsp;<img src="__ROOT__/Style/newmobile/images/tbiao1.png">审核当天计息 &nbsp;&nbsp; <img src="__ROOT__/Style/newmobile/images/tbiao2.png">本息保障 &nbsp;&nbsp; <img src="__ROOT__/Style/newmobile/images/tbiao3.png">灵活转让</dd>
+							  
+							  
+							  
+                                <dd>
+                                      <a href="#"><span > 融资金额 : </span> {$vo.borrow_money|getMoneyFormt=###}元 </a>
+                                </dd>
+                            
+                                <dd>
+                                    <a href="#"><span > 年化利率： </span>{$vo.borrow_interest_rate}% </a>
+                                </dd>
+                            
+                                <dd>
+                                    <a href="#"><span > 投资期限 : </span> {$vo.borrow_duration} <if condition="$vo.repayment_type eq 1">天<else/> 个月</if>  </a>
+                                </dd>
+								
+								 <dd>
+                                    <a href="#"><span > 还款方式 : </span> {$Bconfig['REPAYMENT_TYPE'][$vo['repayment_type']]}</a>
+                                </dd>  
+							<if condition="$vo['reward_rate'] neq 0">
+								 <dd>
+                                    <a href="#"><span >担保方式： </span>  {$vo.danbao}</a>
+                                </dd>  
+							 </if>	
+								
+							    <dd>
+                                  <a href='#'><span> 剩余金额：</span>{$vo['transfer_total']*$vo['per_transfer']-$vo['transfer_out']*$vo['per_transfer']|number_format=###}元({$vo.tinvest_fs}份) </a>
+                                </dd>  
+								 
+							      <dd>
+                                     <a href='#'> <if condition="$vo['tborrow_type'] eq 1">还款日期：<elseif condition="$vo['tborrow_type'] eq 2" />还款日期：<else/>退出日期：不晚于</if>{$vo.deadline|mydate="Y-m-d",###}  </a>
+							   </dd>
+								 
+								
+							    <dd>
+                                    <a href="#"><span >最大投资金额 : </span> <if condition="$vo.borrow_max eq 0">没有限制 <else/>{$vo.borrow_max}份</if></a>
+                                </dd>  
+                              <dd>
+							       <a href='#'> <span>担保机构:</span> {$vo.danbao}  </a>
+							  </dd>
+                            
+                    </dl>
+                </div>
+  </div>
+
+
+
+
+       <div class="c_menu_com"  >
+            <ul>
+                <li class="active"><a href="javascript:;">详情</a> </li>
+                <li><a href="javascript:;">投资列表</a> </li>
+            </ul>
+    </div>	
+		
+		
+		        <div class="job_content">
+            <div class="job_box">
+
+  
+			 <!------------------说明开始------------------------>
+			 <div class="d_description">
+			       
+     
+					
+                    <h3 class="d_title">借款方商业概述</h3>
+                    <div class="d_word">
+                        <p>
+                            {$vo.borrow_breif}
+                        </p>
+                    </div>
+                    <h3 class="d_title">借款方资产情况</h3>
+					<div class="d_word">
+                        <p>
+                           {$vo.borrow_capital}
+                        </p>
+                    </div>	
+					    <h3 class="d_title">借款方资金用途</h3>
+                    <div class="d_word">
+                        <p>
+                           {$vo.borrow_use}
+                        </p>
+                    </div>
+					
+				 <h3 class="d_title">风险控制措施</h3>
+                    <div class="d_word">
+                        <p>
+                           {$vo.borrow_risk}
+                        </p>
+                    </div>
+					
+                  
+                </div>	
+			<!----------------说明结束-------->	
+				
+            </div>
+
+       <!--------buybutton--------->
+	<if condition="$vo['transfer_out'] lt $vo['transfer_total'] ">
+           <div class="overlay">&nbsp;</div>
+            <div class="apply_favorites">
+                <button class="btn_apply"> 投标</button>
+               
+                <a href="javascript:scroll(0,0)" class="btn_top fr"></a>
+            </div>	
+      </if>
+
+
+        </div>
+		
+		
+		
+		
+        <div class="job_content hide">
+		
+            <div class="job_box">
+                <div class="d_description">
+                    <div class="d_word">
+                          <div id="recordcontent"> </div> 
+						 
+				    
+				   <div style=" clear:both"> </div>		 
+                    </div>
+			
+                    <div class="pagebar"><a href="#">更多</a> <span id="pnum" style="display:none"> </span></div>	
+                </div>
+				
+				
+				
+            </div>
+        </div>
+		
+		
+
+		
+		
+  </div>      
+ 
+  <include file="Pub:footer" />
+     
+    <script type="text/javascript" src="__ROOT__/Style/newmobile/js/purl.js"></script>
+    <script type="text/javascript">
+    $(function(){    	      
+    $(".c_menu_com ul li").click(function(){
+            $(".active").removeClass("active"); 
+            $(this).addClass("active"); 
+            
+            $(".job_content").hide();
+            $(".job_content").eq($(".c_menu_com ul li").index($(this))).show(); 
+        });
+});
+    </script>  
+	
+	<script type="text/javascript">
+   $(function(){
+     
+	 investrecord(1);
+         
+   })
+</script> 
+<script type="text/javascript" >
+ function investrecord($p){
+         var id={$vo.id};
+         $.getJSON('__URL__/investrecord',{p:$p,id:id},function(json){
+            if(json.status==1)
+			 {
+			    $("#recordcontent").append(json.data);
+				$("#pnum").html(json.info);
+			 }else{
+			    $("#recordcontent").html(json.data); 
+			   }
+			     
+		});
+ 
+ }
+</script>
+
+<script type="text/javascript">
+  $(function(){
+     $(".pagebar a").click(function(){
+	    var pnum=$(".pagebar span").html();
+		 if(pnum=="" || pnum==null)
+		  {
+		    $(".pagebar a").html("没有更多了");
+		  }else{
+		     pnum++;
+		     investrecord(pnum);
+		  
+		  }
+	 
+	 });
+  
+  })
+</script> 	
+
+
+
+<script type="text/javascript">
+  $(function(){
+      $(".btn_apply").click(function(){
+	     location.href='__URL__/buytinvest?bid={$vo.id}';
+	  
+	  });
+  
+  
+  })
+   
+</script>	
+
+
+</body>
+</html>

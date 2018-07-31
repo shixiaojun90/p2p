@@ -1,0 +1,46 @@
+<include file="Pub:header" />
+  <div class="marginpage">
+      <h3 class="mainpagehader"> 身份证验证 </h3>
+	  
+	   <div class="cardid">
+	 <form action="__URL__/docardid/" name="form1" method="post"  enctype="multipart/form-data">
+	        <ul>
+				
+				<li><label> 真实姓名：</label><input type="text" name="real_name"  value="" class="inputss"></li>
+			    <li ><lable> 身份证号：</label><input type="text" name="idcard"  value="" class="inputss"></li>
+			    <li class="noborder"> 身份证正面   </li>
+			    <li class="submit"> <input type="file" name="card_img[]" id="card_img"  class="inputs">  </li>
+			    <li class="noborder">身份证反面 </li>	
+			    <li class="submit"> <input type="file" name="card_img[]" id="cord_back_img" class="inputs"> </li>
+			  
+				 <li class="submit" > <a href="#" class="buybutton"  style="color:#fff" >提&nbsp;&nbsp;交  </a></li> 
+				 
+			</ul>
+		</form>
+	    
+	   </div>
+ 	 
+	 
+  </div>
+<include file="Pub:footer" />
+<script type="text/javascript">
+  $(function(){
+      $(".buybutton").click(function(){
+	    var real_name=$("input[name='real_name']").val();
+		var idcard=$("input[name='idcard']").val();
+		var card_img=$("input[name='card_img']").val();
+		var card_back_img=$("input[name='card_back_img']").val();
+		
+		if(real_name=='' || idcard=='' || card_img=='' || card_back_img==''){
+		
+		   return Apprise("全部都不能为空");
+		 }  	  
+		 $('form').submit();  
+		  
+		  
+		
+	   });
+  
+   })
+
+</script>

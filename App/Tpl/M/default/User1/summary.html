@@ -1,0 +1,82 @@
+<include file="Pub:header"  />
+
+<!------mainpage开始------>
+ <div class="mainpage">	
+     <h3 class="mainpagehader"  >资金信息</h3>
+	      <div class="summary">
+
+<!--------start-------->
+  <div class="area">
+            <ul>  
+			  <li class="title"> 资金存量 </li>
+               <li> 可用现金金额：{:Fmoney($minfo['account_money']+$minfo['back_money'])}   </li>
+               <li> 待收总额: {$minfo.money_collect|Fmoney=###}  </li>
+               <li> 冻结总额: {$minfo.money_freeze|Fmoney=###}  </li>
+               <li> 账户资金总额： {:Fmoney($minfo['account_money']+$minfo['back_money']+$minfo['money_collect']+$minfo['money_freeze'])} </li>
+                <li> 帐户资产总额 = 可用现金金额 + 待收总额 + 冻结总额 </li>
+            </ul>
+   </div>
+ <!----------end--------> 
+  
+  
+  
+  
+ 
+ <!----------start---------> 
+  
+  <div class="area" >
+    <ul>
+   
+        <li class="title">资金损益 </li>
+        <li> 净赚利息： ￥{$benefit.interest|default="0.00"} </li>
+        <li> 净付利息：￥{$out.interest|default="0.00"}   </li>
+        <li> 支付会员认证费: ￥{$out.authenticate|default="0.00"}   </li>
+        <li> 借款管理费： ￥{$out.borrow_manage|default="0.00"}  </li>
+        <li> 逾期及催收费用：  ￥{$out.overdue|default="0.00"}   </li>
+        <li> 累计提现手续费:  ￥{$out.withdraw_fee|default="0.00"}  </li>
+        <li> 累计投标奖励:  ￥{$benefit.ireward|default="0.00"}    </li>
+        <li> 累计支付投标奖励：  ￥{$out.pay_tender|default="0.00"}    </li>
+        <li>  累计推广奖励： ￥{$benefit.spread_reward|default="0.00"}   </li>
+        <li> 累计线下充值奖励￥{$benefit.re_reward|default="0.00"}  </li>
+        <li>累计续投奖励：  ￥{$benefit.con_reward|default="0.00"}  </li>
+        <li> 累计充值手续费：  ￥{$out.czfee|default="0.00"}  </li>
+        <li> 累计盈亏总额：  {:Fmoney($benefit['total']-$out['total'])}  </li>
+        <li> 累计盈亏总额 = 净赚利息 – 净付利息 – 支付会员认证费 – 借款管理费 - 逾期及催收费用 - 提现手续费– 充值手续费 + 投标奖励  - 支付投标奖励 + 推广奖励 + 线下充值奖励 + 续投奖励</li>
+	</ul>	
+  </div>
+  
+  <!--------end----->
+  
+ <!-----------start-----------> 
+  <div class="area">
+        <ul>
+                <li  class="title" > 资金流量 </li>
+                <li> 累计投资金额:￥{$pcount.ljtz|default="0.00"}  </li>
+                <li> 累计借入金额:￥{$pcount.jrje|default="0.00"}  </li>
+                <li> 累计充值金额：￥{$pcount.payonline|default="0.00"}   </li>
+                <li> 累计提现金额：￥{$pcount.withdraw|default="0.00"} </li>
+                <li> 累计支付管理费：￥{$pcount.commission|default="0.00"}</li>
+        </ul>
+
+  </div>
+ <!----------end--------> 
+  
+  
+  <!------start--->
+  <div class="area">
+    <ul>
+        <li class="title" > 资金预期 </li>
+        <li> 待收利息总额： ￥{$benefit.interest_collection|default="0.00"}  </li>
+        <li> 待付利息总额： ￥{$out.interest_pay|default="0.00"}  </li>
+    </ul>      
+  </div>
+ <!--------------end-------------> 
+  
+  
+</div>
+	     
+ 
+ </div><!-------------mainpage结束------------->
+ </body>
+ </html>
+

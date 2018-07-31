@@ -1,0 +1,169 @@
+
+<include file="Pub:header" />
+  <div class="marginpage">
+  <script type="text/javascript" src="__ROOT__/Style/js/area.js" language="javascript"></script>
+     
+	  
+	   <div class="bankinfo"> 
+	   <h3 class="mainpagehader"> 银行账户</h3>
+	   <form action="__URL__/bankinfohandle/" name="form1" method="post" >  
+	        <ul>
+		       <li>
+				<label>
+					&nbsp;&nbsp;&nbsp;银行账号：
+				</label>
+					{$vobank.bank_num|hidecard=###,3,'还没有登记您的银行账号'}
+				
+			</li>
+			<li>
+				<label>
+					&nbsp;&nbsp;&nbsp;银行名称：
+				</label>
+				
+ 			   <select name="bank_name"  id="bank_name" >
+			   
+			       <volist name="bank_list" id="bank_list" >
+				      <if condition="$i eq $vobank['bank_name']">
+			       <option value="{$i}" selected="selected">   {$bank_list} </option>
+				       <else/>
+					      <option value="{$i}" >   {$bank_list} </option>    
+				      </if>
+					  
+					 
+				    </volist>
+			   
+			   </select> 
+				  
+				
+			</li>
+			<li>
+				<label>
+					&nbsp;&nbsp;&nbsp;户主姓名：
+				</label>
+				
+					<span id="spname">{:cnsubstr($voinfo['real_name'],1,0,'utf-8',false).str_repeat("*",strlen($voinfo['real_name'])-1)}</span><span style="color: Red; margin: 0px 5px;">*</span>
+				
+			</li>
+			<if condition="$vobank.bank_num gt 10">
+			 <li> 
+				<label>
+					 &nbsp;&nbsp;&nbsp;当前帐号：
+				</label>
+				
+					<input class="text2" id="txt_oldaccount" type="text" name="txt_oldaccount">*
+				
+			</li>
+			</if>
+			<li>
+				<label>
+					新银行帐号：
+				</label>
+				
+					<input class="text2" id="txt_account" type="text" name="txt_account">
+					
+				
+			</li>
+			<li>
+				<label>
+				 &nbsp;&nbsp;&nbsp;确认帐号：
+				</label>
+					<input class="text2" id="txt_confirmaccount" type="text">
+					
+				
+			</li>
+			
+			<li>
+				<label>
+					银行所在省：
+				</label>
+				
+					<select  id="province"  name="province">
+					  <option value="0">请选择省份 </option>
+					</select>
+					
+				
+			</li>
+			<li>
+				<label>
+					银行所在市：
+				</label>
+				
+					<select  id="city"  class="selectStyle"  name="city">
+						<option value="0">请选择城市</option>
+					</select>
+					<select name="selectc" id="district" style="width: 110px; display:none" class="selectStyle">
+						<option value="0">请选择地区</option>
+					</select>
+					
+				
+			</li>
+			    
+		  
+			
+			<li>
+				<label>
+					开户行支行：
+				</label>
+				
+					<input name="txt_bankName" id="txt_bankName" value="{$vobank.bank_address}" class="text2" type="text">
+									
+			</li>
+			<li style="text-align:center;">
+				<if condition="$edit_bank eq 1 or $vobank.bank_num lt 10">
+					<input value="提交 " class="buybutton" id="btn_set" type="button">
+				<elseif condition="$edit_bank eq 0 and $vobank.bank_num gt 10"/>
+					<input value=" 修改 "  type="button"  class="buybutton">
+				</if>
+			
+			</li>
+	   </ul>
+				 
+	
+		</form>	
+	    
+	   </div>
+	 
+	 
+  </div>
+<include file="Pub:footer" />
+<script type="text/javascript">
+var areaurl="__URL__/getarea/";
+var s = new GetAreaSelect('#province','#city','#district',<empty name="vobank['bank_province']">2<else/>{$vobank.bank_province}</empty>,<empty name="vobank['bank_city']">52<else/>{$vobank.bank_city}</empty>);
+</script>
+
+<script type="text/javascript">
+   $(function(){
+      $(".buybutton").click(function(){
+          var txt_account=$("#txt_account").val();  //当前银行账户
+	   var txt_confirmaccount=$("#txt_confirmaccount").val();
+	   var  province=$("#province").val();
+	   var  city=$("#city").val();
+	   var district=$("#district").val();
+	   var txt_bankName=$("#txt_bankName").val();
+	   var bank_name=$("#bank_name").val();
+         if(txt_account=='')
+		   return Apprise('请输入新账户');
+	      if(txt_account!=txt_confirmaccount){
+	      return Apprise("新账户和确认前后不一致");
+	    }
+		 if(province==''){
+	       return Apprise("请选择所在省份");
+		  }	
+	   if(city==''){
+	       return Apprise("请选择所在城市");
+	    }
+	    if(txt_bankName==''){
+	     return Apprise('请输入所在支行');
+	    }
+	  if(bank_name==''){
+	       return  Apprise("请选择银行");
+		 }	
+		 
+		$('form').submit();
+		
+		 
+	    });			  
+   
+    })
+
+</script>

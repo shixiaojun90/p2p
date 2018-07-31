@@ -1,0 +1,2 @@
+<?php
+return array ( 0 => 'uid', 1 => 'account', 2 => 'mobile', 3 => 'email', 4 => 'real_name', 5 => 'id_card', 6 => 'platform', 7 => 'platform_marked', 8 => 'qdd_marked', 9 => 'add_time', 10 => 'type', 11 => 'invest_auth', 12 => 'repayment', 13 => 'secondary_percent', '_autoinc' => false, '_pk' => 'uid', ); ?>

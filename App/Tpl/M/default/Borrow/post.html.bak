@@ -1,0 +1,10 @@
+﻿<div id="MyDiv" class="white_content">
+	<div class="usereditepass">
+		<div class="input-group">
+			<p>借款标题</p><input type="radio" class="xl" id="wdname">
+
+		</div>
+	</div>
+	<div class="fadeauto" id="fadeautomess"></div>
+	<div class="loading" id="loading"></div>
+</div>

@@ -1,0 +1,20 @@
+/* CSS Document */
+body{font-size:15px; color:#333;}
+ul{ list-style:none;margin:0px;padding:0px;}
+a{ text-decoration:none; color:#333}
+.page{ margin:10px 0;padding:0px;}
+/**账号与回复样式**/
+.title{height:25px;padding:5px; color:#333; font-weight:bold; background:#f2f2f2;}
+
+.zhanghu{ border:0px;padding:8px;}
+.zhanghu .tdleft{ text-align:left; font-weight:bold;padding-left:8px; }
+.zhanghu .inputs{border:1px solid #e8e8e8; width:430px;margin:5px 6px; height:20px;}
+.zhanghu .smts{ color:#f00; font-size:12px;}
+.submit{ text-align:center; background:url(../images/woyaozhuce.gif) no-repeat center center; width:60px ;height:30px; border:0px; color:#fff; }
+
+.banner{margin-top:10px;border:1px solid #ccc;}
+.banner .title{font-size:13px; padding:8px; background:#e7e7e7; margin:0px; color:#000;}
+.banner ul{ list-style:none;}
+.banner li{float:left;width:30%;padding:8px 0px;  margin:0px;text-align:center;  }
+.banner  img{ margin:0px;padding:0px; width:300px; height:127px;}
+.banner .imgpath{margin-bottom:8px;}

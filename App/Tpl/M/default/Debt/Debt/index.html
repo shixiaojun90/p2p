@@ -1,0 +1,81 @@
+  <include file="Pub:header" />
+		
+	 <div class="mainpage">	
+        
+	 <!---	<div class="m_banner"><a href="../tzrlapp"><img src="__ROOT__/Style/newmobile/images/tzrl_320_app.jpg" width="300" height="127" /></a></div>--->
+				
+
+     
+        <div class="hot_com" style="margin-top:10px;">
+            <h4>
+                <a href="javascript:;" class="a_hot_title">债权转让</a></h4>
+            <ul>
+           <li class="liborder"> <a href="#"><img src="__ROOT__/Style/newmobile/images/zhaiquan.jpg" width="100%" height="127" /></a></li> 	
+				 	
+		<volist name="list.data" id='vb'>
+	                        <li class="liborder"><a href="index/seeinvest?id={$vb.id}">
+                              <table width="100%"  style="background:#fff;">
+							  
+							<tr>  <td colspan="3">  <dl> <dt>
+                                   {$vb.borrow_name|cnsubstr=###,12}
+                                </dt>  </dl> </td>  </tr>  
+							    <tr>
+								
+						
+								    <td  width="70%">   <dl>
+                                
+                                <dd>
+                                  待收本息:  ￥{$vb.money|default=0}元
+                                </dd>
+                   
+                                <dd >
+                                   借款利率:{$vb.borrow_interest_rate}%</php>
+                                </dd>
+								 <dd >
+                                   转让价格:{$vb.transfer_price|getMoneyFormt=###}元</php>
+                                </dd>
+								 <dd> 
+								   转让期数/总期数:{$vb.period}期/{$vb.total_period}期
+								  </dd>
+								
+                            </dl> </td>
+							
+                           <td>  
+		 
+			
+			  <if condition="$vb.status eq '2'"> 
+			 <a href="__URL__/seedebt?id={$vb.invest_id}"  class="buybutton" >立刻投标</a> 
+                            <elseif condition="$vb.status eq '1'"/>
+                            <a href="#" class="buybutton" >已完成</a>
+							<elseif condition="$vb.status eq '4'"/>
+                          <a href="#" class="buybutton" >已停售</a>
+							
+							</if>
+			
+			</td>
+
+							     </tr>
+							  </table>
+                        
+						</li>					
+	</volist>				
+ 
+                    
+            </ul>
+ <div class="pagebar"> {$list.page}  </div><!-------分页栏目------->	
+        </div>
+        
+
+<!------顶部布局开始------>		
+﻿<include file="Pub:footer" />  
+<!-----底部布局结束----->
+  </div> <!-------mainpage end------->
+
+
+ <!----------底部导航菜单start------>
+  <include  file="Pub:footnav" />
+ <!---------底部导航菜单end-->
+
+
+</body>
+</html>

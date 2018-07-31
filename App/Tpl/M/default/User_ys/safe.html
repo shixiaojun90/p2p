@@ -1,0 +1,36 @@
+<include file="Pub:header"  />
+		
+	 <div class="mainpage">	
+       
+				
+  <h3 class="mainpagehader" >安全中心</h3>
+     
+         <div class="userloan">   
+		     
+			  
+<ul> 
+        <li>实名认证：{$memberdetail.real_name|default="还未验证"}[<a href="__URL__/cardid">修改</a>]</li>
+    <li>登陆密码：已设置[<a href="{:U("M/user/editpass")}" >修改</a>]</li>
+
+    <li>手机号码：</td><td>
+        {$memberinfo.user_phone|hidecard=###,2,"还未验证"}[<a href='__URL__/editephone'>还未验证</a>]
+   </li>
+    <li>电子邮箱:
+        {$memberinfo.user_email|default="还未验证"}[<a href='__URL__/setemail'>修改</a>]</li>
+		<li>  </li>
+    </ul>
+				 
+				 
+
+    </div>
+      <div class="realnamerz"> *实名认证时尽量在wifi信号比较好的情况！ </div>  
+<!------顶部布局开始------>		
+
+
+<!-----底部布局结束----->
+  </div> <!-------mainpage end------->
+ 
+ </div>
+
+</body>
+</html>

@@ -1,0 +1,3 @@
+<?php
+//000012960000a:2:{s:7:"ad_type";s:1:"1";s:7:"content";a:4:{i:0;a:3:{s:3:"img";s:35:"UF/Uploads/Ad/20160706110240913.jpg";s:4:"info";s:12:"企业形象";s:3:"url";s:51:"http://www.hebangjiedai.com/member/common/register/";}i:1;a:3:{s:3:"img";s:35:"UF/Uploads/Ad/20150730114203589.jpg";s:4:"info";s:15:"微信上线图";s:3:"url";s:51:"http://www.hebangjiedai.com/member/common/register/";}i:2;a:3:{s:3:"img";s:35:"UF/Uploads/Ad/20150922171250441.jpg";s:4:"info";s:6:"安全";s:3:"url";s:51:"http://www.hebangjiedai.com/member/common/register/";}i:3;a:3:{s:3:"img";s:35:"UF/Uploads/Ad/20160706110750987.jpg";s:4:"info";s:12:"安全保障";s:3:"url";s:51:"http://www.hebangjiedai.com/member/common/register/";}}}
+?>

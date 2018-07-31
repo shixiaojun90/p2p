@@ -1,0 +1,27 @@
+
+<include file="Pub:header" />
+  <div class="marginpage">
+  
+     
+	  
+	   <div class="bankinfo"> 
+	   <h3 class="mainpagehader"> 储蓄卡</h3>
+	     <div class="bank_list">
+           <ul>
+             <li><div class="bank_indate">  {$vobank.bank_num|hidecard=###,3}  </div></li>
+		     <li><div class="bank_user">  <label>开户人：</label>{$voinfo.real_name} </div> </li>
+		  </ul> 
+		 </div> 
+		<div class="bank_list">
+           <ul>
+             <li><div class="bank_indate">  <a href="__URL__/bankinfo" > 银行卡号编辑  </a></div></li>
+		     <li><div class="bank_user">  <a href="__APP__/m/">用户中心 </a></div> </li>
+		  </ul> 
+		 </div>   
+		  
+	   </div>
+	 
+	 
+  </div>
+<include file="Pub:footer" />
+

@@ -1,0 +1,57 @@
+<include file="Pub:header"  />
+		
+	 <div class="mainpage" id="usermsgbg">	
+       
+				
+  <h3 class="mainpagehader" >资金明细</h3>
+     
+   <!-------信息区开始-------->	 
+           
+	
+	 <volist name="list" id="vo">
+	    	<div class="userrecords"> 
+			   <ul>	
+					 <li class="litime"  style="border-bottom:1px  dashed #d5d5d5;" > <php>echo date("y年m月d日", $vo['add_time'])</php> </li>
+		      </ul>
+			 <div style="clear:both"> </div>	
+			   
+			   <ul>	
+					
+					 <li  class="lifloat" >操作：{$vo.type}</li>  
+					<li  class="lifloat" >金额：<span class="je">{$vo.affect_money|MFormt=###}元 <span></li>
+		      </ul>
+			 <div style="clear:both"> </div>	
+			
+		     <ul>  
+			        <li  class="lifloat" >可用：<span class='ky'>{:MFormt($vo['account_money']+$vo['back_money'])}元</span></li>  
+					<li  class="lifloat" >冻结：<span class='dj'>{$vo.freeze_money|MFormt=###} 元</span></li>
+			</ul>
+			<div style="clear:both"> </div>	
+			   <ul>	
+					<li>待收：<span class="ds">{$vo.collect_money|MFormt=###}元 </span></li>
+		      </ul>
+			<div style="clear:both"> </div>	  
+			   <ul>
+			       <li>说明：{$vo.info}  </li>
+			   </ul>
+			 <div  style="clear:both">  </div>  
+			  
+			 </div>  
+		  </volist>	  
+			  
+			  
+	
+  <div class="pagebar">{$pagebar}</div>﻿	 
+	<!------信息区结束------>	  
+        
+
+<!------顶部布局开始------>		
+
+
+<!-----底部布局结束----->
+  </div> <!-------mainpage end------->
+ 
+ </div>
+
+</body>
+</html>

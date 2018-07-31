@@ -1,0 +1,119 @@
+<include file="Pub:header"  />
+	<script type="text/javascript" src="__ROOT__/Style/newmobile/js/jquery-global.js"></script> 	
+	 <div class="mainpage">	
+       
+				
+  <h3 style="margin-top:15px;color:#333" >购买</h3>
+     
+         <div class="usereditepass">   
+	 
+	  <FORM method="post" name="investForm" id="investForm" action="__URL__/investmoney">   
+	     <ul>
+    <li><label>可用余额：</lable>{$user_info.money|MFormt=###} 元 </li>
+    <li><label>利率：</lable>{$vo.borrow_interest_rate}/年</li>
+    <li><lable>融资金额：</label>{$vo.borrow_money|getMoneyFormt=###}元</li>
+    <li><lable>总流转份数：</label>{$vo.transfer_total|default=0}份</li>
+    <li><lable>可认购：</lable>{$vo['transfer_total']-$vo['transfer_out']}份<input type="hidden" value="{$vo['transfer_total']-$vo['transfer_out']}" id="ktfs" name="ktfs"> </li>
+    <li><label>最小流转单位：</lable>{$vo.per_transfer}元</li>
+    <li><lable>最大购买份数：</lable>
+        <if condition="$vo.borrow_max eq 0">没有限制
+                  <else/>
+                  {$vo.borrow_max}份</if>
+    </li>
+  
+      <li>投资期限：{$vo.borrow_duration}</span>&nbsp;
+          <if condition="$vo['repayment_type'] eq 1">天
+            <else/>
+            个月</if>
+          <INPUT type="hidden" id="transfer_invest_month" class="invest_input"  value="{$vo.borrow_duration}" size="11" name="transfer_invest_month"  />
+        </li>
+  
+    <li style="text-align:center">
+   
+       
+        <input type="button" name="minus" id="minus" value="-" class="bt1">
+        <input type="text" name="tnum" id="tnum" value="1份" class="box7_wbk" style="width:55px;" />
+        <input type="button" name="plus" id="plus" value="+" class="bt1">
+		<input type="hidden" name="bid" id="bid" value="{$vo.id}" >
+        
+    </li>
+
+  
+   
+      <input type="hidden" name="T_borrow_id" id="T_borrow_id" value="{$vo.id}" />
+      <input type="hidden" name="per_transfer" id="per_transfer" value="{$vo.per_transfer}" />
+
+   
+   
+      
+      
+   
+   
+         <li>
+    
+       <li>注意:下一步将转到双乾支付-乾多多托管平台进行验证</li>
+   
+
+	<li style="text-align:center;"> <input type="button" class="buybutton" value="购&nbsp;&nbsp;买" /> </li>
+		
+   </ul> 
+  </FORM> 				 
+
+    </div>
+        
+<!------顶部布局开始------>		
+
+
+<!-----底部布局结束----->
+  </div> <!-------mainpage end------->
+ 
+ </div>
+
+</body>
+</html>
+
+<script language="javascript">
+$(function() {
+    $(".buybutton").click(function() {
+		var id=$("#T_borrow_id").val();
+        var num = $("#tnum").val().replace(/[^0-9]/ig, "");
+        var cnum = parseInt(num);
+        var per=$("#per_transfer").val();
+		var totalvalue=per*cnum;
+	     var usermoney={$user_info.money|default=0};
+		 usermoney=parseFloat(usermoney);
+		 if(usermoney=='')
+		   usermoney=0;
+        var ktfs=$("#ktfs").val();
+		if(id==''){
+		
+		  return Apprise("参数有无");
+	   	}
+       
+	   if(cnum>ktfs){
+	   
+	     return Apprise("超出可认购范围");
+	    }
+
+      if(totalvalue>usermoney){
+	  
+	    return Apprise("资金不足");
+	  }
+
+     if(confirm("确定要投标"))
+      {
+	  $('form').submit();  
+      }
+  
+	 
+    
+    });
+})
+</script>
+
+
+
+
+
+
+

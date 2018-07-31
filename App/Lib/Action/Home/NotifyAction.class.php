@@ -1,0 +1,465 @@
+<?php
+    class NotifyAction extends HCommonAction
+    {
+        
+        /**
+        * 复审不通过处理
+        * 
+        */
+        public function auditNo()
+        {
+
+            import("ORG.Loan.Escrow");
+            $loan = new Escrow();
+            if($loan->loanAuditVerify($_POST)){
+               if($_POST['ResultCode']==88){ 
+
+                    $borrow_id = loanBorrowId($_POST['LoanNoList']);
+                    if(!$borrow_id){
+						die('ERROR');
+                    }
+					$borrow = M("borrow_info")->field('borrow_uid, first_verify_time, borrow_status,batch_no')->where("id={$borrow_id}")->find();
+					if($borrow['borrow_status']!=4){
+						die('SUCCESS');
+					}
+                    
+                    /******* 分批审核 *******/
+                    $loanno_list = explode(',',$_POST['LoanNoList']);
+                    if($this->updateOrderStatus($loanno_list, 2)){
+                        notifyMsg('复审不通过['.$borrow['batch_no'].']',$_POST, 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], 'SUCCESS'); 
+                        echo 'SUCCESS';  
+                    }else{
+                        notifyMsg('复审不通过['.$borrow['batch_no'].']',$_POST, 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], '更新审核状态出错');
+                        die('error');
+                    }
+                    
+                     $order_str = getInvestLoanNo($borrow_id); 
+                     
+                     if(!empty($order_str)){
+                        die("存在未审核订单{$order_str}，不允许进行下一步操作");    
+                     }
+                     /******* 分批审核 *******/
+                     
+                    $appid = borrowRefuse($borrow_id,3);
+                    if(!$appid){
+                       echo 'ERROR';exit;  
+                    } 
+                    MTip('chk12',$borrow['borrow_uid'],$borrow_id);
+                    //保存当前数据对象
+                    $borrow_save = array(
+                        'second_verify_time'=>time(),
+                        'borrow_status'=>5,
+                    );
+                    if ($result = M('borrow_info')->where("id={$borrow_id}")->save($borrow_save)) { //保存成功
+                            preg_match('/([0-9]+)/', $_POST['Remark1'], $id_arr);    
+                            $admin_id = $id_arr[0];
+                            $verify_info['borrow_id'] = intval($borrow_id);
+                            $verify_info['deal_info_2'] = text($_POST['Remark1']);
+                            $verify_info['deal_user_2'] = $admin_id;
+                            $verify_info['deal_time_2'] = time();
+                            $verify_info['deal_status_2'] = 5;
+                            if($borrow['first_verify_time']>0) M('borrow_verify')->save($verify_info);
+                            else  M('borrow_verify')->add($verify_info);
+                        alogs("borrowApproved",$result,1,'复审操作成功！');//管理员操作日志
+						notifyMsg('复审不通过['.$borrow['batch_no'].']',$_POST, 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], 'SUCCESS');
+
+						// 清除没有支付成功的记录
+						M('borrow_investor')->where("borrow_id={$borrow_id} and loanno=''")->delete();
+						M('investor_detail')->where("borrow_id={$borrow_id} and pay_status=0")->delete();
+
+                        echo 'SUCCESS';exit;
+                    } else {
+                        alogs("borrowApproved",$result,0,'复审操作失败！');//管理员操作日志
+						notifyMsg('复审不通过['.$binfo['batch_no'].']',$_POST, 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], 'ERROR');
+                        echo 'ERROR';exit;
+                    }    
+               
+               } 
+			   notifyMsg('复审不通过['.$binfo['batch_no'].']',$_POST, 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], '');
+            }
+        
+            
+        }
+        
+        /**
+        * 复审成功处理
+        * 
+        */
+        public function  auditYes()
+        {
+            import("ORG.Loan.Escrow");
+            $loan = new Escrow();
+            if($loan->loanAuditVerify($_POST)){
+               if($_POST['ResultCode']==88){
+                    $borrow_id = loanBorrowId($_POST['LoanNoList']);     
+                    if(!$borrow_id){
+						die('ERROR');
+                    }
+					$borrow = M("borrow_info")->field('borrow_uid, first_verify_time, borrow_status,batch_no')->where("id={$borrow_id}")->find();   
+					if($borrow['borrow_status']!=4){
+						die('SUCCESS');
+					}
+                    
+                    
+                    $loanno_list = explode(',',$_POST['LoanNoList']);
+                    if($this->updateOrderStatus($loanno_list, 1)){
+                        notifyMsg('复审通过['.$borrow['batch_no'].']',$_POST, 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], 'SUCCESS'); 
+                        echo 'SUCCESS';  
+                    }else{
+                        notifyMsg('复审通过['.$borrow['batch_no'].']',$_POST, 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], '更新审核状态出错');
+                        die('error');
+                    }
+                    
+                     $order_str = getInvestLoanNo($borrow_id); 
+                     
+                     if(!empty($order_str)){
+                        die("存在未审核订单{$order_str}，不允许进行下一步操作");    
+                     }
+                    $appid = borrowApproved($borrow_id);     
+                    if(!$appid){
+                        die('ERROR'); 
+                    }
+                    MTip('chk9',$borrow['borrow_uid'], $borrow_id);
+                    $vss = M("members")->field("user_phone,user_name")->where("id = {$borrow['borrow_uid']}")->find();
+                    //SMStip("approve",$vss['user_phone'],array("#USERANEM#","ID"),array($vss['user_name'],$borrow_id));
+
+                    //保存当前数据对象
+                    $borrow_save = array(
+                        'second_verify_time'=>time(),
+                        'borrow_status'=>6,
+                    );
+                    
+                    if ($result = M('borrow_info')->where("id={$borrow_id}")->save($borrow_save)) { //保存成功
+                            preg_match('/([0-9]+)/', $_POST['Remark1'], $id_arr);    
+                            $admin_id = $id_arr[0];
+                            $verify_info['borrow_id'] = intval($borrow_id);
+                            $verify_info['deal_info_2'] = text($_POST['Remark1']);
+                            $verify_info['deal_user_2'] = $admin_id;
+                            $verify_info['deal_time_2'] = time();
+                            $verify_info['deal_status_2'] = 6;
+                            if($borrow['first_verify_time']>0) M('borrow_verify')->save($verify_info);
+                            else  M('borrow_verify')->add($verify_info);
+						sendphone($borrow_id);
+                        alogs("borrowApproved",$result,1,'复审操作成功！');//管理员操作日志
+						notifyMsg('复审通过['.$borrow['batch_no'].']',$_POST, 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], 'SUCCESS');
+
+						// 清除没有支付成功的记录
+						M('borrow_investor')->where("borrow_id={$borrow_id} and loanno=''")->delete();
+						M('investor_detail')->where("borrow_id={$borrow_id} and pay_status=0")->delete();
+
+                        echo 'SUCCESS';exit;
+                    } else {
+                        alogs("borrowApproved",$result,0,'复审操作失败！');//管理员操作日志
+						notifyMsg('复审通过['.$borrow['batch_no'].']',$_POST, 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], 'ERROR');
+                        echo 'ERROR';exit;
+                    }    
+               //SMStip("approve",$vss['user_phone'],array("#USERANEM#","ID"),array($vss['user_name'],$borrow_id));
+               } 
+			   notifyMsg('复审通过['.$borrow['batch_no'].']',$_POST, 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], '');
+            } 
+        }
+        
+        /**
+        * 流标处理
+        * 
+        */
+        public function  auditBids()
+        {
+
+            import("ORG.Loan.Escrow");
+            $loan = new Escrow();
+			
+            if($loan->loanAuditVerify($_POST)){
+			   $str = '';
+               if($_POST['ResultCode']==88){
+                     $borrow_id = loanBorrowId($_POST['LoanNoList']);
+					 if(!$borrow_id){
+                        echo 'error';exit;
+                    }
+                    $borrow = M("borrow_info")->field('borrow_uid, first_verify_time, borrow_status')->where("id={$borrow_id}")->find();
+                    if($borrow['borrow_status']!=2){
+                        echo 'SUCCESS';exit;
+                    }
+                    /******* 分批审核 *******/
+                    $loanno_list = explode(',',$_POST['LoanNoList']);
+                    if($this->updateOrderStatus($loanno_list, 2)){
+                        notifyMsg('复审通过['.$borrow['batch_no'].']',$_POST, 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], 'SUCCESS'); 
+                        echo 'SUCCESS';  
+                    }else{
+                        notifyMsg('复审通过['.$borrow['batch_no'].']',$_POST, 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], '更新审核状态出错');
+                        die('error');
+                    }
+                    
+                     $order_str = getInvestLoanNo($borrow_id); 
+                     
+                     if(!empty($order_str)){
+                        die("存在未审核订单{$order_str}，不允许进行下一步操作");    
+                     }
+                     /******* 分批审核 *******/  
+                     
+                    //流标返回
+                    $appid = borrowRefuse($borrow_id,2);
+                    if(!$appid) {
+                        alogs("borrowRefuse",0,0,'流标操作失败！');//管理员操作日志
+                        echo 'error';exit;
+                    }else{
+                        alogs("borrowRefuse",0,1,'流标操作成功！');//管理员操作日志
+                    }
+                    MTip('chk11',$borrow['borrow_uid'],$borrow_id);
+                    $vss = M("members")->field("user_phone,user_name")->where("id = {$borrow['borrow_uid']}")->find();
+                    SMStip("refuse",$vss['user_phone'],array("#USERANEM#","ID"),array($vss['user_name'],$verify_info['borrow_id']));
+                    
+                    //保存当前数据对象
+                    $borrow_save = array(
+                        'second_verify_time'=>time(),
+                        'borrow_status'=>3,
+                    );
+                    if ($result = M('borrow_info')->where("id={$borrow_id}")->save($borrow_save)) { //保存成功
+                            preg_match('/([0-9]+)/', $_POST['Remark1'], $id_arr);    
+                            $admin_id = $id_arr[0];
+                            //流标操作相当于复审
+                            $verify_info['borrow_id'] = $borrow_id;
+                            $verify_info['deal_info_2'] = text($_POST['Remark1']);
+                            $verify_info['deal_user_2'] = $admin_id;
+                            $verify_info['deal_time_2'] = time();
+                            $verify_info['deal_status_2'] = 3;
+                            if($borrow['first_verify_time']>0) M('borrow_verify')->save($verify_info);
+                            else  M('borrow_verify')->add($verify_info);
+							notifyMsg('流标',$_POST, 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], 'SUCCESS');
+                            $str =  'SUCCESS';
+                    } else {
+						notifyMsg('流标',$_POST, 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], 'ERROR');
+                       $str =  'error';
+                    }     
+               }
+			   notifyMsg('流标',$_POST, 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], $str);
+			   echo $str;exit;
+            }
+        }
+        /**
+		* 代还款
+		**/
+        public function bDetail()
+        {
+            
+            if($_POST['ResultCode']=='88'){ 
+                import("ORG.Loan.Escrow");
+                $loan = new Escrow();      
+                if($loan->loanVerify($_POST)){ 
+                    $str = '';
+                    $info = explode("_",$_POST['Remark1']);   
+                    $batchno = $info[0]; 
+                    $sort_order =  $info[1]; 
+                    $LoanList = json_decode(urldecode($_POST['LoanJsonList']),true);
+                    
+                    if($_POST['Action']=='1'){
+                        $binfo = M("borrow_info")->field("id")->where("batch_no='{$batchno}'")->find();
+                        $borrow_id = $binfo['id'];
+                         
+                        /********分批执行还款**********/
+                        if(isset($LoanList['LoanOutMoneymoremore'])){ 
+                                $orderno = $LoanList['OrderNo'];
+                                $order_arr = explode('_', $orderno);
+                                $invest_info = M("borrow_investor")->field("id")->where("order_no='{$order_arr[0]}'")->find();
+                                $invest_id = $invest_info['id'];
+                                $loanno =  $LoanList['LoanNo'];
+                                M('investor_detail')->where("invest_id={$invest_id} and sort_order={$sort_order}")->save(array('repay_status'=>1,'loanno'=>$loanno));
+                        }else{            
+                            foreach($LoanList as $v){
+                                $orderno = $v['OrderNo'];  
+                                $order_arr = explode('_', $orderno);
+                                $invest_info = M("borrow_investor")->field("id")->where("order_no='{$order_arr[0]}'")->find();
+                                $invest_id = $invest_info['id'];
+                                $loanno =  $v['LoanNo'];
+                                M('investor_detail')->where("invest_id={$invest_id} and sort_order={$sort_order}")->save(array('repay_status'=>1,'loanno'=>$loanno)); 
+                                   
+                            }        
+                        }
+                        $str = 'SUCCESS';
+                        notifyMsg('代还款['.$batchno.']',$_POST, 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], $str);
+                        echo $str;
+                        //判断 当前期数是否完成，如果完成执行更新还款记录，否则不更新
+                        $unapproved = M("investor_detail")->where("borrow_id={$borrow_id} and sort_order={$sort_order} and pay_status=1 and repay_status=0")->count('id');
+                        
+                        if($unapproved){
+                            die("本期存在未还款订单");
+                        }
+                        /********分批执行还款**********/  
+                        if(borrowRepayment($borrow_id, $sort_order, array(),2)){
+                            $str = "SUCCESS";
+                        } 
+                    }elseif(empty($_POST['Action'])){
+                        notifyMsg('代还款冻结['.$batchno.']',$_POST, 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], 'SUCCESS');
+                        die("SUCCESS");
+                    }
+                   notifyMsg('代还款['.$batchno.']',$_POST, 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], $str);
+                    echo $str;
+                }
+            }
+            notifyMsg('代还款['.$batchno.']',$_POST, 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], $str);
+        }
+		/**
+		**	 转账
+		**
+		**/
+		public function transfer()
+		{
+			import("ORG.Loan.Escrow");
+			$loan = new Escrow();
+			if($loan->loanVerify($_POST) && $_POST['ResultCode']==88){
+				if(empty($_POST['Action'])){//空为冻结 暂不处理
+					notifyMsg('转账冻结',$_POST, 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], 'SUCCESS');
+                     echo "SUCCESS";exit;
+				}elseif(intval($_POST['Action'])==1){
+
+					$loan_list = json_decode(urldecode($_POST['LoanJsonList']), true);
+					isset($loan_list[0]) ? $transfer_info = $loan_list[0]:$transfer_info = $loan_list;
+					$orders = $transfer_info['OrderNo'];
+					$transfer = M('transfer')->field('status, loanno, uid')->where("orders='{$orders}'")->find();
+					if($transfer['status']!=1){
+						$arr['status'] = 1;
+						$arr['loanno'] = $transfer_info['LoanNo'];
+						if(M('transfer')->where("orders='{$orders}'")->save($arr)){
+							if(membermoneylog( $transfer['uid'],7,$transfer_info['Amount'],$transfer_info['Remark'],0,"@网站管理员@")){
+								notifyMsg('转账',$_POST, 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], 'SUCCESS');
+								echo "SUCCESS";exit;
+							}
+							else{
+								$arr['status'] = 0;
+								//$arr['loanno'] = $transfer['LoanNo'];
+								M('transfer')->where("orders='{$orders}'")->save($arr);
+								notifyMsg('转账',$_POST, 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], 'ERROR');
+							}
+						}
+					}
+				}
+				notifyMsg('转账',$_POST, 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], '');
+			}
+		}
+
+        
+        
+        /**
+        * 更新投资订单号状态
+        * 
+        * @param array $array // 订单号数组形式
+        * @param intval $status // 订单号状态 1 通过 ，2 退回
+        */
+        private function updateOrderStatus($array, $status)
+        {
+            $status = intval($status);
+            if($status ==1 || $status ==2 ){
+                if(is_array($array) && count($array)){   
+                    foreach($array as $loanno){  
+                        M("borrow_investor")->where("loanno='{$loanno}'")->save(array('audit_status'=>$status));        
+                    }
+                    return true;
+                }
+                    
+            }
+            return false;
+        }
+
+		/**
+		**	 下线奖励转账
+		**
+		**/
+		public function awar()
+		{
+			import("ORG.Loan.Escrow");
+			$loan = new Escrow();
+			if($loan->loanVerify($_POST) && $_POST['ResultCode']==88){
+				if(empty($_POST['Action'])){//空为冻结 暂不处理
+					notifyMsg('线下奖励冻结',$_POST, 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], 'SUCCESS');
+                     echo "SUCCESS";exit;
+				}elseif(intval($_POST['Action'])==1){
+
+					$loan_list = json_decode(urldecode($_POST['LoanJsonList']), true);
+					isset($loan_list[0]) ? $transfer_info = $loan_list[0]:$transfer_info = $loan_list;
+					$orders = $transfer_info['OrderNo'];
+					$transfer = M('transfer')->field('status, loanno, uid')->where("orders='{$orders}'")->find();
+					if($transfer['status']!=1){
+						
+						//
+						$escrow_account = M('escrow_account')->field('uid')->where("qdd_marked='{$transfer_info["LoanInMoneymoremore"]}'")->find();						
+						$member_money = M('member_money')->field('invite_money')->where("uid={$escrow_account['uid']}")->find();
+						$money['invite_money'] = $member_money['invite_money'] - $transfer_info['Amount'];
+						M('member_money')->where("uid={$escrow_account['uid']}")->save($money);					
+						//
+						$arr['status'] = 1;
+						$arr['loanno'] = $transfer_info['LoanNo'];
+						if(M('transfer')->where("orders='{$orders}'")->save($arr)){
+							if(membermoneylog( $transfer['uid'],7,$transfer_info['Amount'],$transfer_info['Remark'],0,"@网站管理员@")){
+								notifyMsg('线下奖励',$_POST, 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], 'SUCCESS');
+								echo "SUCCESS";exit;
+							}
+							else{
+								$arr['status'] = 0;
+								//$arr['loanno'] = $transfer['LoanNo'];
+								M('transfer')->where("orders='{$orders}'")->save($arr);
+								notifyMsg('线下奖励',$_POST, 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], 'ERROR');
+							}
+						}
+					}
+				}
+				notifyMsg('线下奖励',$_POST, 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], '');
+			}
+		}
+		public function withdrawAudit()
+        {
+            import("ORG.Loan.Escrow");
+            $loan = new Escrow();
+            $msg = '验证失败';
+            if($loan->loanAuditVerify($_POST)){
+                $msg = $_POST['Message']; 
+                if(intval($_POST['ResultCode'])==88){
+                    $AuditType = intval($_POST['AuditType']);
+                    $loanno = $_POST['LoanNoList'];
+                    $withdraw = M('member_withdraw')->field(true)->where("loanno='{$loanno}'")->find();
+
+                    if($AuditType == 5 && $withdraw['withdraw_status']==4){ // 提现通过
+                        $updata['withdraw_status'] = 1;
+                        $xid = M('member_withdraw')->where("loanno='{$loanno}'")->save($updata);
+                        if($xid){
+                            $amoney=$withdraw['withdraw_money']-$withdraw['withdraw_fee'];
+
+                            $MM = M("member_money")->field("money_freeze,money_collect,account_money,back_money")->find($withdraw['uid']);
+                            $data['uid'] = $withdraw['uid'];
+                            $data['type'] = 29;
+                            $data['info'] = "提现成功,扣除实际手续费".$withdraw['withdraw_fee']."元，到帐金额".$amoney."元";
+                            $data['target_uid'] = 0;
+                            $data['target_uname'] = '@网站管理员@';
+                            $data['add_time'] = time();
+                            $data['add_ip'] = get_client_ip();
+                            
+                            $data['affect_money'] = -$withdraw['withdraw_money'];
+                            $data['account_money'] = $MM['account_money'];
+                            $data['back_money'] = $MM['back_money'];
+                            $data['collect_money'] = $MM['money_collect'];
+                            $data['freeze_money'] = $MM['money_freeze'];
+                            $newid = M('member_moneylog')->add($data);
+							$um = M("members")->field("user_phone,user_name")->find($withdraw['uid']);
+					
+							SMStip("withdraw",$um['user_phone'],array("#USERANEM#","#MONEY#"),array($um['user_name'],$amoney));
+                            memberMoneyLog($withdraw['uid'],54,$withdraw['withdraw_money'],"提现成功扣除冻结金额资金{$withdraw['withdraw_money']}元",'0','@网站管理员@',0);
+                            $msg = 'SUCCESS'; 
+                        }
+                    }elseif($AuditType == 6 && $withdraw['withdraw_status']==4){ // 提现退回
+                        $updata['withdraw_status'] = 2;
+                        $xid = M('member_withdraw')->where("loanno='{$loanno}'")->save($updata);
+                        if($xid){
+                            memberMoneyLog($withdraw['uid'],5,$withdraw['withdraw_money'],"提现退回资金{$withdraw['withdraw_money']}元",'0','@网站管理员@',0);
+                            memberMoneyLog($withdraw['uid'],55,$withdraw['withdraw_money'],"提现退回冻结资金{$withdraw['withdraw_money']}元",'0','@网站管理员@',0);
+                            $msg = 'SUCCESS'; 
+                        }
+                    }
+                }   
+            
+            }  
+            
+            notifyMsg('提现审核',$_POST, 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], $msg);  
+            die($msg);
+        }
+
+    }  
+?>

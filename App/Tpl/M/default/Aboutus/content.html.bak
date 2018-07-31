@@ -1,0 +1,23 @@
+<include file="Pub:header"  />
+<script>
+	$(function(){
+			$("#content img").css({
+			"width" : "100%",
+			"height" : "100%",
+			"overflow" : "hidden",
+			"margin" : "0px auto",
+			"text-align" : "center",
+			"float" : ""
+		});
+	});
+	
+</script>
+ <div class="mainpage" id="content">
+ 
+   <h3 style="text-align:center;padding-top: 5px;">{$t.type_name}</h3>
+	{$t.type_content}
+ </div>
+<include file="Pub:header"  />
+
+ </body>
+</html>

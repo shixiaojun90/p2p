@@ -1,0 +1,34 @@
+<include file="Pub:header" />
+  <div class="marginpage">
+      <h3 class="mainpagehader"> 身份证验证 </h3>
+	  
+	   <div class="cardid">
+	
+	        <ul>
+				 <li ><label> 用户名：</label>{$username}</li>
+				 <li><label> 真实姓名：</label>{$userinfo.real_name}</li>
+				 <li><label>身份号: </label>{$userinfo.idcard|hidecard=###,2} </li>
+				 <li class="submit" > <input type="submit" id="submit"  value="编辑信息"  class="buybutton"></li> 			</ul>
+		
+	    
+	   </div>
+	 
+	 
+  </div>
+<include file="Pub:footer" />
+
+<script type="text/javascript">   
+   $(function(){
+       $("#submit").click(function(){
+	   
+	      location.href="__URL__/editecardid";
+	   
+	   });
+   
+   
+   })
+ 
+
+</script>
+
+

@@ -1,0 +1,35 @@
+<include file="Pub:header"  />
+		
+	 <div class="mainpage">	
+       
+				
+  <h3 class="mainpagehader" >资金信息</h3>
+     
+         <div class="userfund">   
+		     
+			  <ul > 
+			    
+	        <li><span>资金总额：</span>{:Fmoney($minfo['account_money']+$minfo['back_money']+$minfo['money_collect']+$minfo['money_freeze'])} </li>
+			<li><span>可用余额：</span> {:Fmoney($minfo['account_money']+$minfo['back_money'])}</li>
+			<li><span>冻结总额：</span>{$minfo.money_freeze|Fmoney=###} </li>
+			<li><span>待收总额：</span>{$minfo.money_collect|Fmoney=###} </li>
+			<li><span>待收利息：</span>￥{$benefit.interest_collection|default="0.00"} </li>
+			<li><span> 提现总额：</span>￥{$pcount.withdraw|default="0.00"}</li>
+			<li><span> 充值总额：</span>￥{$pcount.payonline|default="0.00"}</li>
+			<li><span> 累计借入：</span>￥{$pcount.jrje|default="0.00"}</li>
+     
+				 
+				 
+		   </ul>
+    </div>
+        
+<!------顶部布局开始------>		
+
+
+<!-----底部布局结束----->
+  </div> <!-------mainpage end------->
+ 
+ </div>
+
+</body>
+</html>

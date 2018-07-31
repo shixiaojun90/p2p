@@ -1,0 +1,48 @@
+<include file="Pub:header"  />
+		
+	 <div class="mainpage">	
+        <div class="m_banner"><a href="../tzrlapp"><img src="__ROOT__/Style/newmobile/images/media.jpg" width="300" height="127" /></a></div>
+				
+
+     
+        <div class="hot_com">
+            <h4>
+                <a href="job/default.htm" class="a_hot_title">项目还款</a></h4>
+            <ul>
+		   <volist name="list" id="vo">	
+                        <li class="liborder"><a href="__URL__/seemedia?id={$vo.id}">
+                            <dl>
+                                <dd class="artlistsize">
+                                  {$vo.title}
+ 
+
+                                </dd>
+                                
+                                <dd class="dateTime">
+                                    {$vo.art_time|date="Y-m-d",###}
+                                </dd>
+                                
+                            </dl>
+                        </a></li>
+           </volist>               		
+                    
+            </ul>
+			
+			<div class="pagebar"> {$pagebar} </div><!-------分页栏目------->
+        </div>
+        
+
+<!------顶部布局开始------>		
+
+<include file="Pub:footer"  />
+<!-----底部布局结束----->
+  </div> <!-------mainpage end------->
+
+
+ <!----------底部导航菜单start------>
+
+<!-----------底部导航end----------->
+
+
+</body>
+</html>

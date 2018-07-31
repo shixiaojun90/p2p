@@ -1,0 +1,56 @@
+<include file="Pub:header"  />
+		
+	 <div class="mainpage">	
+       
+				
+  <h3 class="mainpagehader" >我要提现</h3>
+     
+         <div class="usercash">   
+		     
+			  <ul > 
+			      <li class="liborder"><span>银行账号:</span>&nbsp;&nbsp;<a href="#"  >{$vo.bank_num|hidecard=###,3,'还没有登记您的银行账号'} {$vo.bank_name} </a></li>  
+				  <li class="liborder"> <span>真实姓名：</span><a href="#" >{$vo.real_name} </a></li>
+				  <li class="liborder"><span>联络手机：</span><a href="#"  >{$vo.user_phone|default="还未验证"} </a></li>  
+				   <li class="liborder"><span>提现期限：</span><a href="#"  >72小时/24小时 <br/><font color=#666>(72小时内打款，到帐时间因各个银行不同)</font></a></li>  
+				  <li class="liborder"> <span>可提现金额：</span>￥{$vo.all_money} <br/><font color=#666>(单笔提现金额会员限制为100-{$fee.2.0}万元)</fon> </li>
+				  <li> <input type="text" name='money' id="money" class="inputs"  value="请输入提现金额" onfocus="if(this.value==' 光标一放上去内容就不见了 # '){this.value=''};" onblur="if(this.value==''){this.value=' 光标一放上去内容就不见了 # '};"  /> </li>
+				  <li><input type="password" name="paypass" id="paypass" class="inputs"  /> </li>
+				  <li style="text-align:center;"><input type="button" id="dobutton"  class="buycash"  value="确认提现"/> </li>	 
+		   </ul>
+    </div>
+        
+<!------顶部布局开始------>		
+
+
+<!-----底部布局结束----->
+  </div> <!-------mainpage end------->
+ 
+ </div>
+
+</body>
+</html>
+<script language="javascript">
+$(function() {
+    $("#dobutton").click(function() {
+        var e = $("#money").val(),
+            t = $("#paypass").val(),
+            r = "money=" + e + "&paypass=" + t;
+        if ($.trim(e) == "") return Apprise("<font color=red>请输入要提取的金额!</font>"), !1;
+        if ($.trim(t) == "") return Apprise("<font color=red>请输入支付密码！</font>"), !1;
+        $.ajax({
+            type: "POST",
+            url: "",
+            data: r,
+            success: function(e) {
+                e == "TRUE" ? (Apprise("恭喜您申请成功，等待网站处理！"), $("#apprise-btn-confirm").click(function() {
+                    window.location.href = "{:U('M/user/index')}"
+                })) : Apprise("<font color=red>" + e + "</font>")
+            },
+            error: function(e) {
+                Apprise("<font color=red>提交发生错误！请重试</font>")
+            }
+        })
+    })
+})
+</script>
+

@@ -1,0 +1,35 @@
+<include file="Pub:header" />
+  <div class="marginpage">
+      <h3 class="mainpagehader"> 身份证验证 </h3>
+	  
+	   <div class="cardid">
+	
+	        <ul>
+				 <li ><lable> 用户名：</label>{$username}</li>
+				 <li><label> 真实姓名：</label>{$userinfo.real_name}</li>
+			 <empty name="userinfo['card_img']">	 
+				 <li><a href="__URL__/editecardid/"> 编辑</a></li>
+			 <else />
+			    <li> 身份证正面  <span class="card_img"> &gt; </span> </li>
+			    <li class="submit"> <img src="__ROOT__/{$userinfo.card_img}" width="100%">  </li>
+			 </empty>	 
+				 
+		       <empty name="userinfo['card_back_img']">	
+			     
+				 <li><a href="__URL__/editecardid/"> 编辑</a>  </li>
+			   <else/>
+			    <li>身份证反面<span class="card_back_img"> &gt; </span>  </li>	
+			      <li class="submit"> <img src="__ROOT__/{$userinfo.card_back_img}">  </li>
+			   </empty>	 
+				 <li class="submit" > <input type="submit" id="submit"  value="编辑信息"  class="buybutton"></li> 
+				 
+			</ul>
+		
+	    
+	   </div>
+	 
+	 
+  </div>
+<include file="Pub:footer" />
+
+

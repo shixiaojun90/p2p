@@ -1,0 +1,76 @@
+<include file="Pub:header"  />
+	
+	 <div class="mainpage">	
+       
+				
+  <h3 style="margin-top:15px;color:#333" >购买</h3>
+     
+         <div class="usereditepass">   
+	 
+	   
+	     <ul>
+    <li><label>债权总额：</lable>￥{$debt.money}元</li>
+    <li><label>购买价格：</lable>￥{$debt.transfer_price}元</li>
+    <li><lable>可用余额：</label>￥{$account}元</li>
+
+ 
+    <li><label> 支付密码：</label><input type="password" name="paypass"  id="paypass" class="inputs" />&nbsp;<font color="red">*</font></li>
+	<li style="text-align:center;"> 
+	
+		  
+		   <input type="hidden" name="invest_id" id="invest_id" value="{$invest_id}">
+             <input type="button" class="buybutton" value="购&nbsp;&nbsp;买" /> </li>
+  
+   </ul> 
+   			 
+
+    </div>
+        
+<!------顶部布局开始------>		
+
+
+<!-----底部布局结束----->
+  </div> <!-------mainpage end------->
+ 
+ </div>
+
+</body>
+</html>
+
+<script type="text/javascript">
+function myrefresh() 
+{ 
+    window.location.reload(); 
+}
+$(".buybutton").click(function(){
+    var paypass = $("#paypass").val();
+    var invest_id = $("#invest_id").val();
+    if(!invest_id){
+		Apprise("<font color=red>缺少参数，请与客服联系！</font>");
+        return false;
+    }
+    if(!paypass){
+		Apprise("<font color=red>请输入支付密码！</font>");
+        return false;
+    }
+    if(confirm('你确定购买该债权吗?')){
+        $.ajax({
+            url: "__URL__/buy/",
+            data: {"paypass":paypass, "invest_id":invest_id},
+            timeout: 4000,
+            cache: false,
+            type: "post",
+            dataType: "json",
+            success: function (d, s, r) {
+                    if(d.status==1){
+						Apprise("<font color=red>"+d.message+"</font>");
+                        setTimeout('myrefresh()',1000); 
+                    }else{
+                        Apprise("<font color=red>"+d.message+"</font>");
+                    }
+            },
+           
+        });
+    }
+})
+</script>

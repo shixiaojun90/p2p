@@ -1,0 +1,3 @@
+<?php
+//000012960000a:2:{s:7:"ad_type";s:1:"0";s:7:"content";s:577:"<h2>联系我们</h2><p><span class="le"><img style="margin:0px;width:13px;height:13px;float:none;" width="13" height="13" src="/UF/Uploads/Article/20140503152613.jpg" /></span>石家庄市长安区财富大厦1-A2</p><p><span class="le"><img style="margin:0px;width:13px;height:12px;float:none;" width="13" height="12" src="/UF/Uploads/Article/20140503152657.jpg" /></span>400-106-1506</p><p><span class="le"><img style="margin:0px;width:13px;height:13px;float:none;" width="13" height="13" src="/UF/Uploads/Article/20140503152736.jpg" /></span>E-mail:hebangjiedai@163.com</p>";}
+?>

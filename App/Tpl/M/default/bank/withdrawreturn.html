@@ -1,0 +1,32 @@
+<include file="Pub:header" />
+  <div class="marginpage">
+      <h3 class="mainpagehader"> 提现提示 </h3>
+	  
+	   <div class="chargecash">
+	
+	        <ul>
+		       
+				 <li class="submit msg"> {$msg}</li>
+				 <li></li>
+				 <li class="submit" > <input type="submit" id="submit"  value="用户中心"  class="buybutton"></li> 
+				 
+			</ul>
+		
+	    
+	   </div>
+	 
+	 
+  </div>
+<include file="Pub:footer" />
+<script type="text/javascript">
+  $(function(){
+      $("#submit").click(function(){
+	  
+	    location.href="__APP__/m/user";
+	  
+	   });
+  
+  
+  })
+
+</script>

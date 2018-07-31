@@ -1,0 +1,63 @@
+﻿
+<include file="Pub:header"  />
+		
+	 <div class="mainpage">	
+       
+				
+  <h3  class="mainpageleft" >用户登录</h3>
+     
+         <div class="usereditepass">   
+		     
+<form  action="" method="post" name="loginForm" id="loginForm">			  
+     <ul> 
+     <li><label>用户名：</label><input type="text" name='username' id="username" value="" class="inputs"  style="background:#fff;"/><font color=red>*</font></li>
+    <li><label>密&nbsp;&nbsp;&nbsp;码：</label><input type="password" name="password" value="" id="password" class="inputs" style="background:#fff;"  /><font color=red>*</font></li>
+    <li><label>验证码：</label><input type="text" name="verify" id="verify" class="inputs" value="" style="width:60px" />
+ <img src='/M/Pub/verify'  class="verify" onclick="this.src=this.src+'?t='+Math.random()"/></li>
+    
+	 <li style="text-align:center;"> <input type="button" class="buybutton" value="登&nbsp;&nbsp; 录" style="border:0px;" /> </li>
+	 </ul>
+</form>				 
+				 
+
+    </div>
+        
+<!------顶部布局开始------>		
+
+<div  style="text-align:center;margin-top:8px;">
+   
+    <ul class="copyright">
+        <li><a href="__URL__/regist">注册</a><span>|</span><a href="__URL__/getfgtpass/">忘记密码</a></li>
+		 
+    </ul>
+</div>
+
+<include file="Pub:footer" />
+
+ </div> <!-----控制容器结束---->
+<!-----底部布局结束----->
+  </div> <!-------mainpage end------->
+ 
+ </div>
+
+</body>
+</html>
+<script language="javascript">
+$(function(){
+    $(".buybutton").click(function(){
+        if($.trim($("#username").val())==''){
+            Apprise('<font color=red>请输入用户名！</font>');
+            return false;
+        }
+        if($.trim($("#password").val())==''){
+            Apprise('<font color=red>请输入密码！</font>'); 
+            return false;
+        }
+        if($.trim($("#verify").val())==''){
+            Apprise('<font color=red>请输入验证码！</font>'); 
+            return false;
+        }
+        $("#loginForm").submit();
+    })
+})
+</script>

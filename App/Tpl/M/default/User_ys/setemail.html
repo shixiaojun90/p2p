@@ -1,0 +1,60 @@
+<include file="Pub:header"  />
+		
+	 <div class="mainpage">	
+       
+				
+  <h3 class="mainpagehader" >验证邮箱</h3>
+     
+         <div class="usereditepass">   
+		     
+			  
+<ul> 
+        <li><label>邮箱地址：</label><input type="text" name='email' id="email" class="inputs" /><font color=red>*</font></li>
+	 <li style="text-align:center;"> <input type="button" class="buybutton" value="确&nbsp;&nbsp; 定" /> </li>
+	 </ul>
+				 
+				 
+
+    </div>
+        
+<!------顶部布局开始------>		
+
+
+<!-----底部布局结束----->
+  </div> <!-------mainpage end------->
+ 
+ </div>
+
+</body>
+</html>
+<script language="javascript">
+$(function(){
+    $(".buybutton").click(function(){
+        var email=$("#email").val();
+		var re= /\w@\w*\.\w/;
+		  if (!re.test(email)){
+			return Apprise("邮箱不合法");
+			  }
+        $.ajax({
+           type: "POST",
+           url: "__URL__/dosetemail",
+           data: 'email='+email,
+           success: function(msg){
+               if(msg=='TRUE'){
+                  Apprise("恭喜邮箱设置完成");
+                  $("#apprise-btn-confirm").click(function(){
+                     window.location.href="{:U('M/user/index')}";
+                  })
+               }else{
+                  Apprise('<font color=red>'+msg+'</font>');
+               }
+           },
+           error:function(err){
+               Apprise("<font color=red>提交发生错误！请重试</font>");
+           }
+       });
+    })
+})
+</script>
+
+

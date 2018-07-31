@@ -1,0 +1,45 @@
+<include file="Pub:header"  />
+
+<style>
+.register_nav li.space3 { color: #fff; }
+</style>
+<div class="mainpage">
+ <h3  class="mainpageleft" >第四步:注册成功</h3>
+
+	<div  class="usereditepass">
+		  <div  style="width:auto; height:260px; padding-top:100px;margin: 0 auto; text-align: center;">
+			  <span style=" font-size: 12px; color:red; font-weight: bold;">{$msg}</span>
+			  </br>
+			  </br>
+			  <span id="time_span"></span>
+		  </div>
+	</div>
+    <script language='javascript' type='text/javascript'>
+        var secs =3; //倒计时的秒数
+        var URL ;
+        var ret;
+        ret = '{$msg}';
+        if(ret == '成功')
+        {
+            Load('/m/pub/user');
+        }else
+        {
+            Load('register2/');
+        }
+        function Load(url){
+            URL =url;
+            for(var i=secs;i>=0;i--)
+            {
+                window.setTimeout('doUpdate(' + i + ')', (secs-i) * 1000);
+
+            }
+        }
+
+        function doUpdate(num)
+        {
+            document.getElementById('time_span').innerHTML = '将在'+num+'秒后自动跳转' ;
+            if(num == 0) { window.location=URL;  }
+        }
+    </script>
+
+</div>

@@ -1,0 +1,215 @@
+﻿<include file="Pub:header"  />
+<script>
+	var cpurl = "__URL__/";
+	var vkey = "{$vkey}";
+</script>
+<style>
+body,input,button{font:normal 14px "Microsoft Yahei";margin:0;padding:0}
+.odform-tit{font-weight:normal;font-size:25px;color:#595757;line-height:40px;text-align:center;border-bottom:1px solid #c9cacb;margin:0;padding:5% 0}
+.odform-tit img{height:40px;vertical-align:middle;margin-right:15px}
+.odform-tit1{font-weight:normal;font-size:12px;color:#595757;text-align:center;}
+
+.odform{width:100%;}
+.input-group{margin-bottom:5%;position:relative}
+.input-group label{padding:2% 0;position:absolute;color:#595757}
+.input-group input{margin-left:4em;padding:3% 5%;box-sizing:border-box;background:#efeff0;border:0;border-radius:5px;color:#595757;width:75%}
+.input-group select{margin-left:5em;padding:3% 5%;box-sizing:border-box;background:#efeff0;border:0;border-radius:5px;color:#595757;width:75%}
+.input-group select option{text-align:center;}
+.input-group textarea{margin-left:4em;padding:3% 5%;box-sizing:border-box;background:#efeff0;border:0;border-radius:5px;color:#595757;width:75%; margin-top: 9px;}
+
+
+.input-duration{width: 100%;}
+.input-duration label{padding:2% 0;color:#595757;width: 30%; float:left;}
+.input-duration input{box-sizing:border-box;background:#efeff0;border:0;border-radius:5px;color:#595757;}
+.input-duration .x_duration{
+margin-left:-2em;
+box-sizing:border-box;background:#efeff0;height: 33px;
+border:0;border-radius:5px;color:#595757;width:52%;
+}
+
+.input-group1{margin-top:15px;}
+.input-group1 .ch{box-sizing:border-box;background:#efeff0;border:0;border-radius:5px;color:#595757;}
+.input-group1 .x_hidde{
+box-sizing:border-box;background:#efeff0;height: 27px;
+border:0;border-radius:5px;color:#595757;width:64%;
+}
+.input-group1 .x_reward{
+box-sizing:border-box;background:#efeff0;height: 27px;
+border:0;border-radius:5px;color:#595757;width:43%;
+}
+
+.odform .buttons{background:#8ec31f;color:#fff;text-align:center;border:0;border-radius:10px;padding:3%;width:100%;font-size:16px}
+.odform .cal{background-image:url(images/daetixian-cal.png);background-repeat:no-repeat;background-position:95% center;background-size:auto 50%}
+.odform .xl{background-image:url(images/daetixian-xl.png);background-repeat:no-repeat;background-position:95% center;background-size:auto 20%}
+#_is_reward{display:none;}
+#_reward_type_1{display:none;}
+
+.fadeauto {
+    width: auto;
+    font-size: 18px;
+    margin-left: 85px;
+    position: absolute;
+    margin-top: -237px;
+    background: #DA4848 none repeat scroll 0% 0%;
+    text-align: center;
+    border-radius: 5px;
+    display:none;
+}
+</style>
+</head>
+
+<body>
+<tagLib name="htmlA" />
+<h1 class="odform-tit">借款申请预约</h1><br/>
+<h5 class="odform-tit1">您正在发布：{$BORROW_TYPE[$borrow_type]} </h5>
+<div class="odform" id="odform">
+	<htmlA:select id="_day_option" datakey="borrow_day_time" style="display:none"/>
+    <htmlA:select id="_month_option" datakey="borrow_month_time" style="display:none"/>
+	<form id="myform"  method="post" action="__URL__/save" onsubmit="return mysubmit();">
+		<input type="hidden" name="vkey" value="{$vkey}" />
+		<div class="input-group">
+			<label for="wdname">借款标题</label>
+			<input type="text" class="xl" id="borrow_name" name="borrow_name"  placeholder="借款标题">
+		</div>
+		<div class="input-group">
+			<label for="wdname">借款金额</label>
+			<input type="text" class="xl" id="borrow_money" name="borrow_money" placeholder="借贷总金额">
+		</div>
+		<div class="input-group">
+			<label for="khname" id="_day_rate">年化利率</label>
+			<input type="text" id="borrow_interest_rate" name="borrow_interest_rate" placeholder="利率范围:0.05%-24%" class="x_rate">%
+		</div>
+		<div class="input-group">
+			<label for="khname">借款用途</label>
+			<htmlA:select id="borrow_use" datakey="borrow_use" class="x_select" addstr='title="说明借款成功后的具体用途"'/>
+		</div>
+		<div class="input-duration">
+			<label for="khname">借款期限</label>
+			<if condition="$miao eq 'yes'"><span style="color:#F00">标满自动还款</span>
+			<else/>
+			<htmlA:select id="borrow_duration" datakey="borrow_month_time" class="x_duration"/>
+			<!-- <htmlA:select id="_day_option" datakey="borrow_day_time" style="display:none"/> -->
+			</if>
+			<input type="checkbox" id="is_day" name="is_day" value="yes" onclick="checkday()">按天
+		</div>
+		<div class="input-group" style="margin-top: 18px;">
+			<label for="khname">投标金额</label>
+			<htmlA:select id="borrow_min" datakey="borrow_min" class="x_select"/>
+		</div>
+		<div class="input-group">
+			<label for="khname">投标总额</label>
+			<htmlA:select id="borrow_max" datakey="borrow_max" class="x_select" nodefalut="true"/>
+		</div>
+		<div class="input-group">
+			<label for="khname">有效时间</label>
+			<htmlA:select id="borrow_time" datakey="borrow_time" class="x_select"/>
+		</div>
+		<div class="input-group">
+			<label for="khname">还款方式</label>
+			<if condition="$miao eq 'yes'">
+			<span style="color:#F00">标满自动还款</span>
+			<else/>
+			<htmlA:select id="repayment_type" datakey="repayment_type" class="x_select"/>
+			</if>
+		</div>
+		<div class="input-group1">
+			<label for="wdname">是否定向标</label>
+			<input type="checkbox" class="ch" id="is_pass">
+			<input type="text" style="display:none" name="password" class="x_hidde" id="password"/>
+		</div>
+		<div class="input-group1">
+			<label for="khname">是否有投标奖励</label>
+			<input type="checkbox" class="ch" id="is_reward">
+		</div>
+
+		<div class="input-group1" id="_is_reward">
+			<label for="khname"><input type="radio">按投标金额比例奖励</label>
+			<input type="text"  name="reward_type_1_value" class="x_reward" id="reward_type_1_value"/>%
+		</div>
+
+		<div class="input-group1">
+			<label for="khname">是否有投标待收限制</label>
+			<input type="checkbox" class="ch"  id="reward_type_1">
+		</div>
+
+		<div class="input-group1" id="_reward_type_1">
+			<label for="khname">待收金额设置：</label>
+			<input type="text"  name="moneycollect" class="x_reward" id="moneycollect"/>元
+		</div>
+
+
+		<div class="input-group">
+			<label for="khname">借款说明</label>
+			<textarea  name="borrow_info" id="borrow_info" class="x_select"></textarea>
+		</div>
+		<input type="submit" id="buttons" class="buttons"  value="提交申请">
+		<!-- <input type="button" id="buttons" class="buttons" onclick="mysubmit();" value="提交申请"> -->
+		<!-- <button id="buttons" onclick="mysubmit()">提交申请</button> -->
+	</form>
+</div>
+<div class="fadeauto" id="fadeautomess"></div>
+<div class="loading" id="loading"></div>
+
+<script>
+	function checkday(){
+		//var is_check = $("#is_day").attr("checked");
+		if($("#is_day").is(":checked")){
+			var option = $("#_day_option").html();
+			$("#repayment_type option:eq(1)").attr('selected',true);
+			$("#repayment_type").attr('disabled',true);
+			//$("#_day_rate").html("日利率：").css("color","red");
+			//$("input[name='borrow_interest_rate']").css("border","1px solid red");
+		}
+		else{
+			var option = $("#_month_option").html();
+			$("#repayment_type option:eq(0)").attr('selected',true);
+			$("#repayment_type").attr('disabled',false);
+			$("input[name='borrow_interest_rate']").removeAttr("style");
+			$("#_day_rate").html("年利率：").removeAttr("style");
+		}
+		$("#borrow_duration").empty();
+		$(option).appendTo("#borrow_duration");
+	}
+
+	$("#repayment_type").click(function(){
+		var type = $("#repayment_type").val();
+		var month = $("#borrow_duration").val();
+		var is_day = $("#is_day").is(":checked");
+		if(type==3 && month%3!=0){
+			alert("选择按季分期还款时，借款期限必须为3的整倍数，请重新填写借款期限或者选择别的还款方式");	
+			$("#repayment_type option:eq(0)").attr("selected",true);
+		}else if(type==1 && !is_day){
+			alert("选择按天到期还款时，必须勾选 '按天'，请重新填写借款期限或者选择别的还款方式");	
+			$("#repayment_type option:eq(0)").attr("selected",true);
+		}
+	}) 
+		
+
+	$("#is_pass").click(function() {
+			if($(this).is(":checked")){
+				$("#password").show();
+			}else{
+				$("#password").hide();
+			}
+		});
+
+		$("#is_reward").click(function() {
+			if($(this).is(":checked")){
+				$("#_is_reward").show();
+			}else{
+				$("#_is_reward").hide();
+			}
+		});
+
+		$("#reward_type_1").click(function() {
+			if($(this).is(":checked")){
+				$("#_reward_type_1").show();
+			}else{
+				$("#_reward_type_1").hide();
+			}
+		});		
+</script>
+
+</body>
+</html>
+

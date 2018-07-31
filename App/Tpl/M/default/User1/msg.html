@@ -1,0 +1,38 @@
+<include file="Pub:header"  />
+		
+	 <div class="mainpage" id="usermsgbg" >	
+       
+				
+  <h3 class="mainpagehader" >站内消息</h3>
+     
+   <!-------信息区开始-------->	 
+           
+	
+	 <volist name="list" id="vo">
+	    	<div class="usermsg"> 	
+		      <ul>  
+			        <li class="lifloat" style="width:60%"><img src="__ROOT__/Style/mobile/images/<if condition='$vo.status eq 1'>read.jpg<else/>unread.jpg</if>"> 发件人:{$glo.web_name}</li>  <li  class="lifloat" style="width:40%"> {$vo.send_time|date="Y-m-d",###}</li>
+				</ul>
+			<div style="clear:both"> </div>	
+				<ul>	
+					<li class="msgcontent" >{$vo.title} </li>
+		      </ul>
+			 </div>  
+		  </volist>	  
+			  
+			  
+	
+  <div class="pagebar">{$pagebar}</div>﻿	 
+	<!------信息区结束------>	  
+        
+
+<!------顶部布局开始------>		
+
+
+<!-----底部布局结束----->
+  </div> <!-------mainpage end------->
+ 
+ </div>
+
+</body>
+</html>

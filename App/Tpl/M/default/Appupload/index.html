@@ -1,0 +1,39 @@
+<include file="Pub:header"  />
+ <div class="mainpage" >	
+  <h3 style="margin:10px;"> 客户端下载 </h3>
+      <div class="hot_com" style="margin-top:10px; background:#eee; z-index:0"> 
+	       <!----------start conetnet------>
+	             <div > <img src="__ROOT__/Style/newmobile/images/apptop.gif"  width="100%">    </div>
+				 <div > <img src="__ROOT__/Style/newmobile/images/appmiddle.gif" width="100%">   </div>
+			     <div style=" float:left;width:50%;"><a href="{$list['apkPath']}"><img src="__ROOT__/Style/newmobile/images/app_android.gif"  border="0"></a></div>  
+				 <div style="float:right;width:50%;"><a href="{$list['applePath']}"><img src="__ROOT__/Style/newmobile/images/app_ios.gif"  border="0"></a></div>
+				 <div  style="clear:both"> </div>
+				 
+				   <table width="100%" border="0" > <tr> <td width="50%" align="center" >  <a href="#" class="buybutton" >安卓下载</a> </td>  <td width="50%"  align="center" > <a href="#" class="buybutton" >苹果下载</a> </td>  </tr>  </table> 
+				 
+				 <div  style="clear:both;height:20px;"> </div>
+				 
+				  
+	         
+	       
+	      <!-----------end content------->
+	  
+	   </div>
+  
+  
+  <script type="text/javascript"> 
+  
+     $(".buybutton").click(function(){
+	         return Apprise('<font color=red>请到浏览中输入一下地址下载：{$WebUrl}/uploadfile/</font>'); 
+	 
+	  });
+     
+
+</script> 
+          		 
+ <include  file="Pub:footer" />
+ </div>
+  
+
+ </body>
+</html>

@@ -1,0 +1,60 @@
+<include file="Pub:header"  />
+	
+	 <div class="mainpage">	
+       
+				
+  <h3 style="margin-top:15px;color:#333" >购买</h3>
+     
+         <div class="usereditepass">   
+ <form action="__URL__/buydebt" name="form1" method="post">	 
+	   
+	     <ul>
+    <li><label>债权总额：</lable>￥{$debt.money}元</li>
+    <li><label>购买价格：</lable>￥{$debt.transfer_price}元</li>
+    <li><lable>可用余额：</label>￥{$account}元</li>
+	<li style="text-align:center;"> 
+	       <input type="hidden" name="gmjg" id="gmjg" value="{$debt.transfer_price}">
+	       <input type="hidden" name="kyje" id="kyje" value="{$account}" >
+		   <input type="hidden" name="invest_id" id="invest_id" value="{$invest_id}">
+           <input type="button" class="buybutton" value="购&nbsp;&nbsp;买" /> </li>
+  
+   </ul> 
+</form>   			 
+
+    </div>
+        
+<!------顶部布局开始------>		
+
+
+<!-----底部布局结束----->
+  </div> <!-------mainpage end------->
+ 
+ </div>
+
+</body>
+</html>
+
+<script type="text/javascript">
+function myrefresh() 
+{ 
+    window.location.reload(); 
+}
+$(".buybutton").click(function(){
+    var invest_id = $("#invest_id").val();
+	var kyje=parseFloat($("#kyje").val());
+	var gmjg=parseFloat($("#gmjg").val());
+    if(!invest_id){
+		Apprise("<font color=red>缺少参数，请与客服联系！</font>");
+        return false;
+    }
+   gmjg=parseFloat(gmjg);
+   kyje=parseFloat(kyje);
+	if(gmjg>kyje){
+	  return Apprise("金额不足");
+	 }
+	
+    if(confirm('你确定购买该债权吗?')){
+        $("form").submit();
+    }
+})
+</script>

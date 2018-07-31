@@ -1,0 +1,2 @@
+<?php
+return array ( 'stmp' => array ( 'user' => 'ceshi@lvmaque.net', 'pass' => '23101988a', 'server' => 'smtp.idccenter.net', ), 'sms' => array ( 'type' => '1', 'user1' => '', 'pass1' => '', 'user2' => 'DXX-WSS-11D-08229', 'pwd' => '759279', 'user3' => '', 'pass3' => '', 'pass2' => '4C9B580663F1D95B767466A2F8330256', ), 'baidu' => array ( 'apiKey' => 'k5mt8cZINNQI4Cl8gIqMAnnO', 'secretKey' => 'PychX6ID9fYt6DtFMmvMavxnP7xDS9kR', 'apkVersion' => '1.0', 'apkPath' => 'http://wap.lvmaque.cn/style/lmq.apk', ), ); ?>

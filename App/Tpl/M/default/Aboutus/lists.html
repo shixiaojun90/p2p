@@ -1,0 +1,48 @@
+<include file="Pub:header"  />
+ <div class="mainpage">	
+   <div class="hot_com" style="text-align:justify;  "> 
+	       <!----------start conetnet------>
+	        <br>
+	           <h3 style="text-align:center" >{$t.type_name}</h3>
+	          <br>
+		  <style type="text/css"> p{ line-height:30px; font-size:16px;} </style>  
+       <!-----------end content------->
+   </div>
+		<!--金雀动态公告-->
+	<div class="by_right3">
+		<div class="tabpin">
+			<div class="panespin">
+				 <div class="pane" style="display:block;">
+					<dl>
+						<volist name="news" id="vo">
+						<dd style="margin-top:5px;">
+							<span><a href="__URL__/news/id/{$vo.id}">{$vo.title|cnsubstr=###,10}</a></span>
+							<span style="float:right; margin-right:20px;">{$vo.art_time|date="Y-m-d",###}</span>
+						</dd>
+						</volist>
+					</dl>
+					<!-- <dl><dd><input type="hidden" value="{$aid}" id="aid"></dd></dl>
+					<dl><dd style="text-align:center;margin-top:5px;"><button id="button" style=" font-size:16px;"><h4>加载更多</h4></button></dd></dl> -->
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		$(function(){
+			var id = $("#aid").val();
+			var num = 3;
+			$("#button").click(function(){
+				$.ajax({
+					type:post,
+					url:'__URL__/aboutus'
+					data:'num'+num,
+					success:function(d){
+						
+					}
+				})
+			});
+		});
+	</script>
+ </div>
+ </body>
+</html>

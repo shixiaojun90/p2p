@@ -1,0 +1,40 @@
+<include file="Pub:header" />
+  <div class="marginpage">
+      <h3 class="mainpagehader"> 用户提现 </h3>
+	  
+	   <div class="chargecash">
+	   <form action="__URL__/mobilewithdraw" name="form1" method="post" >  
+	        <ul>
+		         <li><label>当前余额：</label>{$usermoney} <input type="hidden" id="usermoney" value="{$usermoney}"> </li>
+				 <li> <label>金额： </label><input type="text" class="inputs"  id="Amount" name="Amount"> </li>
+				 <li class="ts"> 1、尊敬的{$username}，提现操作涉及您的资金变动，请仔细核对您的提现信息
+
+</li>
+               <!-- <li class="ts"> 2、一般用户单日提现上限为万元 </li>  -->
+				 <li class="ts">  2、涉及到您的资金安全，请仔细操作 </li>
+				 <li class="submit" ><input type="submit" name="submit" class="buybutton" value="提&nbsp;&nbsp;交"></li> 
+				 
+			</ul>
+		</form>	
+	    
+	   </div>
+	 
+	 
+  </div>
+<include file="Pub:footer" />
+<script type="text/javascript">
+  $(function(){
+      $("#submit").click(function(){
+	     var usermoney=$("usermoney").val();
+		  var Amount=$("#Amount").val();
+		   if(Amount > usermoney){
+		    return alert("提现金额不能大于余额！");
+		   }
+     if(confirm("确定提现")){
+       $("form").submit(); 
+	   }
+	  });
+  
+  
+  })
+</script>

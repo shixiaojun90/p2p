@@ -1,0 +1,53 @@
+<include file="Pub:header"  />
+		
+	 <div class="mainpage" id="usermsgbg" >	
+       
+				
+  <h3  class="mainpagehader" >充值明细</h3>
+     
+   <!-------信息区开始-------->	 
+      <ul class="mainpagehader">     
+	        
+			   <li>充值成功：  ￥{$success_money|default="0.00"}</li>
+			   <li>充值失败：￥{$fail_money|default="0.00"}  </li>
+			    
+	  </ul>
+	
+	 <volist name="list" id="vo">
+	    	<div class="userrecords"> 
+			   <ul>	
+					 <li class="litime"  style="border-bottom:1px  solid #ddd;" > {$vo.add_time|date="Y-m-d H:i",###} </li>
+		      </ul>
+			 <div style="clear:both"> </div>	
+			   
+			   <ul>	
+					
+					 <li  class="lifloat" >编号：{$vo.id}</li>  
+					<li  class="lifloat" >充值金额：{$vo.money}元 </li>
+		      </ul>
+			 <div style="clear:both"> </div>	
+	
+			   <ul>
+			       <li>充值状态：{$vo.status}  </li>
+			   </ul>
+			 <div  style="clear:both">  </div>  
+			  
+			 </div>  
+	 </volist>	  
+			  
+			  
+	
+  <div class="pagebar">{$pagebar}</div>﻿	 
+	<!------信息区结束------>	  
+        
+
+<!------顶部布局开始------>		
+
+
+<!-----底部布局结束----->
+  </div> <!-------mainpage end------->
+ 
+ </div>
+
+</body>
+</html>
